@@ -1,0 +1,8 @@
+version: "3"
+services:
+  slant:
+    image: seercle/slant_cpu
+    container_name: slant_cpu
+    volumes:
+      - ../INPUTS:/INPUTS
+      - ../OUTPUTS:/OUTPUTS
