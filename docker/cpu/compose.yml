@@ -3,7 +3,6 @@ services:
     image: seercle/slant_cpu
     container_name: slant_cpu
     environment:
-      - CONTAINER_NAME=slant_cpu #Must match container_name
       - INTERVAL_SECONDS=2 #Interval in seconds between memory checks, must be > 0
     volumes:
       - ../INPUTS:/INPUTS

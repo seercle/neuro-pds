@@ -1,9 +1,8 @@
-CONTAINER_NAME="$1"
-INTERVAL_SECONDS="$2"
+INTERVAL_SECONDS="$1"
 
-if [ -z "$CONTAINER_NAME" ] || [ -z "$INTERVAL_SECONDS" ]; then
-  echo "Error: Both CONTAINER_NAME and INTERVAL_SECONDS must be provided."
-  echo "Usage: $0 <CONTAINER_NAME> <INTERVAL_SECONDS>"
+if [ -z "$INTERVAL_SECONDS" ]; then
+  echo "Error: INTERVAL_SECONDS must be provided."
+  echo "Usage: $0 <INTERVAL_SECONDS>"
   exit 1
 fi
 
@@ -11,6 +10,7 @@ OUTPUT_FILE="/OUTPUTS/memory_usage.csv"
 if [ ! -f "$OUTPUT_FILE" ]; then
   echo "Creating output file: $OUTPUT_FILE"
   echo "timestamp,memory_usage_gib" > "$OUTPUT_FILE"
+  sync
 fi
 
 while true; do
