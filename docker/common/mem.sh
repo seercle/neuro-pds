@@ -10,7 +10,6 @@ OUTPUT_FILE="/OUTPUTS/memory_usage.csv"
 if [ ! -f "$OUTPUT_FILE" ]; then
   echo "Creating output file: $OUTPUT_FILE"
   echo "timestamp,memory_usage_gib" > "$OUTPUT_FILE"
-  sync
 fi
 
 while true; do

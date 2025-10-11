@@ -1,0 +1,3 @@
+[submodule "datasets/raiders_data"]
+	path = datasets/raiders_data
+	url = https://github.com/HaxbyLab/raiders_data.git
