@@ -7,10 +7,10 @@ if [ -z "$INTERVAL_SECONDS" ]; then
 fi
 
 OUTPUT_FILE="/OUTPUTS/memory_usage.csv"
-if [ ! -f "$OUTPUT_FILE" ]; then
-  echo "Creating output file: $OUTPUT_FILE"
-  echo "timestamp,memory_usage_gib" > "$OUTPUT_FILE"
-fi
+#if [ ! -f "$OUTPUT_FILE" ]; then
+#  echo "Creating output file: $OUTPUT_FILE"
+#  echo "timestamp,memory_usage_gib" > "$OUTPUT_FILE"
+#fi
 
 while true; do
   TIMESTAMP=$(date +"%H:%M:%S")

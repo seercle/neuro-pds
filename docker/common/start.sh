@@ -6,9 +6,15 @@ if [ -z "$INTERVAL_SECONDS" ]; then
   exit 1
 fi
 
+LOG_FILE="/OUTPUTS/deep_brain_seg_logs.csv"
+#echo "timestamp,log" > "$LOG_FILE"
+
 # Iterate over files in /CUSTOM_INPUTS
-find /CUSTOM_INPUTS -type f ! -path "*/.*" | while read -r file; do
+find /CUSTOM_INPUTS -type f ! -path "*/.*" | sort | while read -r file; do
   if [ -f "$file" ]; then
+    START_TIMESTAMP=$(date +"%H:%M:%S")
+    echo "$START_TIMESTAMP: Study of $(basename $file) started."
+
     # Clear the /INPUTS directory
     rm -rf /INPUTS/*
 
@@ -19,11 +25,13 @@ find /CUSTOM_INPUTS -type f ! -path "*/.*" | while read -r file; do
     $BIN_BASH /opt/mem.sh "$INTERVAL_SECONDS" &
     MEM_SCRIPT_PID=$!
 
-    # Run the SLANT application
-    $BIN_BASH /extra/run_deep_brain_seg.sh
+    $BIN_BASH /extra/run_deep_brain_seg.sh 2>&1 | while IFS= read -r LOG; do
+      TIMESTAMP=$(date +"%H:%M:%S")
+      echo "$TIMESTAMP,$LOG" >> "$LOG_FILE"
+    done
 
     # Stop the memory monitoring script
-    kill $MEM_SCRIPT_PID
+    kill $MEM_SCRIPT_PID &>/dev/null
 
     # Create a directory in /CUSTOM_OUTPUTS named after the file
     filename=$(basename "$file")
@@ -32,5 +40,8 @@ find /CUSTOM_INPUTS -type f ! -path "*/.*" | while read -r file; do
 
     # Move the content of /OUTPUTS to the new directory
     mv /OUTPUTS/* "$output_dir/"
+
+    END_TIMESTAMP=$(date +"%H:%M:%S")
+    echo "$END_TIMESTAMP: Study of $(basename $file) ended."
   fi
 done
