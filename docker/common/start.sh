@@ -1,5 +1,5 @@
 BIN_BASH="/bin/bash"
-
+DATE_FORMAT="%Y-%m-%d_%H:%M:%S"
 if [ -z "$INTERVAL_SECONDS" ]; then
   echo "Error: INTERVAL_SECONDS must be provided."
   echo "Usage: $0 <INTERVAL_SECONDS>"
@@ -12,7 +12,7 @@ LOG_FILE="/OUTPUTS/deep_brain_seg_logs.csv"
 # Iterate over files in /CUSTOM_INPUTS
 find /CUSTOM_INPUTS -type f ! -path "*/.*" | sort | while read -r file; do
   if [ -f "$file" ]; then
-    START_TIMESTAMP=$(date +"%H:%M:%S")
+    START_TIMESTAMP=$(date +$DATE_FORMAT)
     echo "$START_TIMESTAMP: Study of $(basename $file) started."
 
     # Clear the /INPUTS directory
@@ -26,7 +26,7 @@ find /CUSTOM_INPUTS -type f ! -path "*/.*" | sort | while read -r file; do
     MEM_SCRIPT_PID=$!
 
     $BIN_BASH /extra/run_deep_brain_seg.sh 2>&1 | while IFS= read -r LOG; do
-      TIMESTAMP=$(date +"%H:%M:%S")
+      TIMESTAMP=$(date +$DATE_FORMAT)
       echo "$TIMESTAMP,$LOG" >> "$LOG_FILE"
     done
 
@@ -41,7 +41,7 @@ find /CUSTOM_INPUTS -type f ! -path "*/.*" | sort | while read -r file; do
     # Move the content of /OUTPUTS to the new directory
     mv /OUTPUTS/* "$output_dir/"
 
-    END_TIMESTAMP=$(date +"%H:%M:%S")
+    END_TIMESTAMP=$(date +$DATE_FORMAT)
     echo "$END_TIMESTAMP: Study of $(basename $file) ended."
   fi
 done

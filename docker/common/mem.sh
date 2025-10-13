@@ -13,7 +13,7 @@ OUTPUT_FILE="/OUTPUTS/memory_usage.csv"
 #fi
 
 while true; do
-  TIMESTAMP=$(date +"%H:%M:%S")
+  TIMESTAMP=$(date +"%Y-%m-%d_%H:%M:%S")
   MEMORY_USAGE_BYTES=$(cat /sys/fs/cgroup/memory.current)
   MEMORY_USAGE_GIB=$(awk "BEGIN {printf \"%.2f\", $MEMORY_USAGE_BYTES / 1073741824}")
   echo "$TIMESTAMP,$MEMORY_USAGE_GIB" >> "$OUTPUT_FILE"

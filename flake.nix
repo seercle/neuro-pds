@@ -22,10 +22,16 @@
       in {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
+            git-annex
+            (python313.withPackages (p:
+              with p; [
+                matplotlib
+              ]))
+
             docker
             nixd
+            ruff
             alejandra
-            git-annex
           ];
         };
       }
