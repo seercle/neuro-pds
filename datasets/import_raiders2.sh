@@ -95,6 +95,7 @@ mkdir -p "$DEST_DIR"
 
 for file in "${FILES[@]}"; do
   SUB_DIR=$(echo "$file" | cut -d '_' -f1)
-  wget "${REPO_URL}/${SUB_DIR}/func/${filen}" -O "${DEST_DIR}/${file}"
+  echo "Downloading ${file} from ${REPO_URL}/${SUB_DIR}/func/"
+  wget "${REPO_URL}/${SUB_DIR}/func/${file}" -O "${DEST_DIR}/${file}"
   echo "Downloaded ${file} to ${DEST_DIR}/${file}"
 done
