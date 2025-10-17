@@ -1,0 +1,9 @@
+services:
+  slant:
+    image: seercle/slant_gpu
+    container_name: slant_gpu
+    environment:
+      - INTERVAL_SECONDS=2 #Interval in seconds between memory checks, must be > 0
+    volumes:
+      - ../INPUTS:/CUSTOM_INPUTS
+      - ../OUTPUTS:/CUSTOM_OUTPUTS

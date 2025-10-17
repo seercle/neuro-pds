@@ -43,5 +43,13 @@ find /CUSTOM_INPUTS -type f ! -path "*/.*" | sort | while read -r file; do
 
     END_TIMESTAMP=$(date +$DATE_FORMAT)
     echo "$END_TIMESTAMP: Study of $(basename $file) ended."
+
+    start_seconds=$(date -d "$START_TIMESTAMP" +%s)
+    end_seconds=$(date -d "$END_TIMESTAMP" +%s)
+    elapsed_seconds=$((end_seconds - start_seconds))
+    elapsed_minutes=$((elapsed_seconds / 60))
+    echo "Elapsed time: $elapsed_minutes minutes"
+    echo "----------------------------------------"
+
   fi
 done
