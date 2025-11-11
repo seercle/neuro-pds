@@ -1,0 +1,16 @@
+services:
+  slant:
+    image: seercle/slant_gpu_v1_1
+    container_name: slant_gpu_v1_1
+    environment:
+      - INTERVAL_SECONDS=2 #Interval in seconds between memory checks, must be > 0
+    volumes:
+      - ../../datasets/RAIDERS:/CUSTOM_INPUTS
+      - ./OUTPUTS:/CUSTOM_OUTPUTS
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

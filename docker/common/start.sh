@@ -6,16 +6,17 @@ fi
 
 BIN_BASH="/bin/bash"
 DATE_FORMAT="%Y-%m-%d_%H:%M:%S"
-LOG_FILE="/OUTPUTS/deep_brain_seg_logs.csv"
-MEMORY_USAGE_FILE="/OUTPUTS/memory_usage.csv"
+# Output files in the container
+LOG_FILE="/OUTPUTS/log.csv"
+MEMORY_USAGE_FILE="/OUTPUTS/memory.csv"
+# Output files in the volume
+OUTPUT_FILE="/CUSTOM_OUTPUTS/output.csv"
 
+echo "filename,elapsed_minutes,file_size_mb" > "$OUTPUT_FILE"
 
 # Iterate over files in /CUSTOM_INPUTS
 find /CUSTOM_INPUTS -type f ! -path "*/.*" | sort | while read -r file; do
   if [ -f "$file" ]; then
-    start_timestamp=$(date +%s)
-    echo "$(date -d @$start_timestamp +$DATE_FORMAT): Study of $(basename $file) started."
-
     # Clear the /INPUTS directory
     rm -rf /INPUTS/*
 
@@ -23,13 +24,19 @@ find /CUSTOM_INPUTS -type f ! -path "*/.*" | sort | while read -r file; do
     cp "$file" /INPUTS/
 
     # Start the memory monitoring script in the background
-    $BIN_BASH /opt/mem.sh "$INTERVAL_SECONDS" "$MEMORY_USAGE_FILE" &
+    $BIN_BASH /opt/mem.sh "$INTERVAL_SECONDS" "$MEMORY_USAGE_FILE" "$DATE_FORMAT" &
     mem_script_pid=$!
+
+    start_timestamp=$(date +%s)
+    echo "$(date -d @$start_timestamp +$DATE_FORMAT): Study of $(basename $file) started."
 
     $BIN_BASH /extra/run_deep_brain_seg.sh 2>&1 | while IFS= read -r log; do
       timestamp=$(date +$DATE_FORMAT)
       echo "$timestamp,$log" >> "$LOG_FILE"
     done
+
+    end_timestamp=$(date +%s)
+    echo "$(date -d @$end_timestamp +$DATE_FORMAT): Study of $(basename $file) ended."
 
     # Stop the memory monitoring script
     kill $mem_script_pid
@@ -44,13 +51,16 @@ find /CUSTOM_INPUTS -type f ! -path "*/.*" | sort | while read -r file; do
     mv $LOG_FILE "$output_dir/"
     mv $MEMORY_USAGE_FILE "$output_dir/"
 
-    end_timestamp=$(date +%s)
-    echo "$(date -d @$end_timestamp +$DATE_FORMAT): Study of $(basename $file) ended."
-
-    elapsed_seconds=$((end_seconds - start_seconds))
+    elapsed_seconds=$((end_timestamp - start_timestamp))
     elapsed_minutes=$((elapsed_seconds / 60))
     echo "Elapsed time: $elapsed_minutes minutes"
     echo "----------------------------------------"
+
+    # Get the size of the file
+    file_size_bytes=$(stat -c%s "$file")
+    file_size_mb=$(echo "scale=2; $file_size_bytes / 1024 / 1024" | bc)
+
+    echo "$filename,$elapsed_minutes,$file_size_mb" >> "$OUTPUT_FILE"
 
   fi
 done

@@ -5,15 +5,15 @@ from matplotlib.backends.backend_pdf import PdfPages
 import matplotlib.pyplot as plt
 
 # Path to the OUTPUTS directory
-outputs_dir = "../docker/OUTPUTS"
+outputs_dir = "./cpu_v1_0/OUTPUTS"
 
 # Initialize a PDF file to save all plots
-output_pdf = "memory_usage_traces.pdf"
+output_pdf = "pdf_memory_profile.pdf"
 with PdfPages(output_pdf) as pdf:
     # Iterate over all directories in the OUTPUTS directory
     for subdir in os.listdir(outputs_dir):
         subdir_path = os.path.join(outputs_dir, subdir)
-        memory_csv = os.path.join(subdir_path, "memory_usage.csv")
+        memory_csv = os.path.join(subdir_path, "memory.csv")
 
         # Check if the memory_usage.csv file exists in the directory
         if os.path.isdir(subdir_path) and os.path.exists(memory_csv):
