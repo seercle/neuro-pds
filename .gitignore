@@ -1,3 +1,11 @@
-.direnv
-.envrc
-NOTES.md
+/*
+!datasets/
+!docker/
+!plots/
+!resources/
+!singularity/
+!.gitignore
+!.gitmodules
+!flake.lock
+!flake.nix
+!README.md
