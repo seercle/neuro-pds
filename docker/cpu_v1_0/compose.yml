@@ -1,9 +1,0 @@
-services:
-  slant:
-    image: seercle/slant_cpu_v1_0
-    container_name: slant_cpu_v1_0
-    environment:
-      - INTERVAL_SECONDS=2 #Interval in seconds between memory checks, must be > 0
-    volumes:
-      - ../../datasets/RAIDERS:/CUSTOM_INPUTS
-      - ./OUTPUTS:/CUSTOM_OUTPUTS

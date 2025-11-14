@@ -1,6 +1,7 @@
 /*
 !datasets/
 !docker/
+!dockerfiles/
 !plots/
 !resources/
 !singularity/

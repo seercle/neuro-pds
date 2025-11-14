@@ -67,3 +67,9 @@ If this is your first time using this repository, please follow the steps below:
   - [Yuankai Huo, Zhoubing Xu, Yunxi Xiong, Katherine Aboud, Parasanna Parvathaneni, Shunxing Bao, Camilo Bermudez, Susan M. Resnick, Laurie E. Cutting, and Bennett A. Landman. "3D whole brain segmentation using spatially localized atlas network tiles" NeuroImage 2019](https://arxiv.org/pdf/1806.00546)
 
   - [Yuankai Huo, Zhoubing Xu, Katherine Aboud, Parasanna Parvathaneni, Shunxing Bao, Camilo Bermudez, Susan M. Resnick, Laurie E. Cutting, and Bennett A. Landman. "Spatially Localized Atlas Network Tiles Enables 3D Whole Brain Segmentation" In International Conference on Medical Image Computing and Computer-Assisted Intervention, MICCAI 2018](https://www.sciencedirect.com/science/article/pii/S1053811919302307)
+
+- MaCRUISE papers:
+
+  - Yuankai Huo, Andrew J. Plassard, Aaron Carass, Susan M. Resnick, Dzung L. Pham, Jerry L. Prince, and Bennett A. Landman. "Consistent cortical reconstruction and multi-atlas brain segmentation." NeuroImage 138 (2016): 197-210.
+
+  - Yuankai Huo, Aaron Carass, Susan M. Resnick, Dzung L. Pham, Jerry L. Prince, and Bennett A. Landman. "Combining multi-atlas segmentation with brain surface estimation." In Medical Imaging 2016: Image Processing, vol. 9784, p. 97840E. International Society for Optics and Photonics, 2016.

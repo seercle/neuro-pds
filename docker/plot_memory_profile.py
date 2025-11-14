@@ -1,31 +1,38 @@
 import csv
 import os
+import sys
 from datetime import datetime
-from matplotlib.backends.backend_pdf import PdfPages
+
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
+
+if len(sys.argv) < 2:
+    print("Usage: python plot_memory_profile.py <path_to_outputs>")
+    sys.exit(1)
 
 # Path to the OUTPUTS directory
-outputs_dir = "./cpu_v1_0/OUTPUTS"
+outputs_dir = sys.argv[1]
+memory_csv_filename = "memory_trace.csv"
+output_pdf_filename = "pdf_memory_profile.pdf"
+time_format = "%Y-%m-%d_%H:%M:%S"
 
-# Initialize a PDF file to save all plots
-output_pdf = "pdf_memory_profile.pdf"
-with PdfPages(output_pdf) as pdf:
+with PdfPages(output_pdf_filename) as pdf:
     # Iterate over all directories in the OUTPUTS directory
     for subdir in os.listdir(outputs_dir):
         subdir_path = os.path.join(outputs_dir, subdir)
-        memory_csv = os.path.join(subdir_path, "memory.csv")
+        memory_csv_path = os.path.join(subdir_path, memory_csv_filename)
 
         # Check if the memory_usage.csv file exists in the directory
-        if os.path.isdir(subdir_path) and os.path.exists(memory_csv):
+        if os.path.isdir(subdir_path) and os.path.exists(memory_csv_path):
             timestamps = []
             mem_usage = []
 
             # Read the memory_usage.csv file
-            with open(memory_csv, "r") as file:
+            with open(memory_csv_path, "r") as file:
                 reader = csv.reader(file)
                 for row in reader:
                     timestamp, mem_in_gib = row
-                    timestamps.append(datetime.strptime(timestamp, "%Y-%m-%d_%H:%M:%S"))
+                    timestamps.append(datetime.strptime(timestamp, time_format))
                     mem_usage.append(float(mem_in_gib))
 
             # Calculate elapsed time
@@ -44,4 +51,4 @@ with PdfPages(output_pdf) as pdf:
             pdf.savefig()
             plt.close()
 
-print(f"All memory usage traces have been saved to {output_pdf}")
+print(f"All memory usage traces have been saved to {output_pdf_filename}")
