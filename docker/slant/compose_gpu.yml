@@ -1,0 +1,17 @@
+services:
+  slant:
+    # You can use either 'slant_gpu_v1_0' or 'slant_gpu_v1_1' images
+    image: seercle/slant_gpu_v1_0
+    container_name: slant_gpu_v1_0
+    environment:
+      - INTERVAL_SECONDS=2
+    volumes:
+      - ../../datasets/RAIDERS:/CUSTOM_INPUTS
+      - ./OUTPUTS:/CUSTOM_OUTPUTS
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
