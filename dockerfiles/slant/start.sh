@@ -31,11 +31,10 @@ find /CUSTOM_INPUTS -type f ! -path "*/.*" | sort | while read -r file; do
     start_timestamp=$(date +%s)
     echo "$(date -d @$start_timestamp +$DATE_FORMAT): Study of $(basename $file) started."
 
-    #bash /extra/run_deep_brain_seg.sh 2>&1 | while IFS= read -r log; do
-    #  timestamp=$(date +$DATE_FORMAT)
-    #  echo "$timestamp,$log" >> "$LOGS_FILE"
-    #done
-    sleep 10
+    bash /extra/run_deep_brain_seg.sh 2>&1 | while IFS= read -r log; do
+      timestamp=$(date +$DATE_FORMAT)
+      echo "$timestamp,$log" >> "$LOGS_FILE"
+    done
 
     end_timestamp=$(date +%s)
     echo "$(date -d @$end_timestamp +$DATE_FORMAT): Study of $(basename $file) ended."

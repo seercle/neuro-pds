@@ -23,11 +23,12 @@
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             git-annex
+            typst
             (python313.withPackages (p:
               with p; [
                 matplotlib
               ]))
-
+            
             docker
             nixd
             ruff

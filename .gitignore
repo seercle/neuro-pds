@@ -5,8 +5,10 @@
 !plots/
 !resources/
 !singularity/
+!typst/
 !.gitignore
 !.gitmodules
 !flake.lock
 !flake.nix
+!paper.pdf
 !README.md

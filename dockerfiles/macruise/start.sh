@@ -41,11 +41,10 @@ find /CUSTOM_INPUTS -type d | sort | while read -r dir; do
   start_timestamp=$(date +%s)
   echo "$(date -d @$start_timestamp +$DATE_FORMAT): Study of $($file_name).nii.gz started."
 
-  #bash /extra/MaCRUISE_v3_1_0 2>&1 | while IFS= read -r log; do
-  #  timestamp=$(date +$DATE_FORMAT)
-  #  echo "$timestamp,$log" >> "$LOGS_FILE"
-  #done
-  sleep 10
+  bash /extra/MaCRUISE_v3_1_0 2>&1 | while IFS= read -r log; do
+    timestamp=$(date +$DATE_FORMAT)
+    echo "$timestamp,$log" >> "$LOGS_FILE"
+  done
 
   end_timestamp=$(date +%s)
   echo "$(date -d @$end_timestamp +$DATE_FORMAT): Study of $($file_name).nii.gz ended."

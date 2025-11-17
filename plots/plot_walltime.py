@@ -1,8 +1,8 @@
-import os
 import csv
-from datetime import datetime
-from matplotlib.backends.backend_pdf import PdfPages
+import os
+
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
 
 # Path to the OUTPUTS directory
 outputs_dir = "../singularity/cpu_v1_0/OUTPUTS"
