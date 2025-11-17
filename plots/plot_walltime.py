@@ -1,11 +1,16 @@
 import csv
 import os
+import sys
 
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
+if len(sys.argv) < 2:
+    print("Usage: python plot_walltime.py <path_to_outputs>")
+    sys.exit(1)
+
 # Path to the OUTPUTS directory
-outputs_dir = "../singularity/cpu_v1_0/OUTPUTS"
+outputs_dir = sys.argv[1]
 
 # Initialize lists for x and y data
 file_sizes = []
