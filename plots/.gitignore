@@ -1,3 +1,5 @@
 /*
 !.gitignore
 !plot_walltime.py
+
+!singularity_slant_cpu_v1_0_walltime_example.pdf

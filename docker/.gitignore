@@ -3,3 +3,5 @@
 !slant/
 !.gitignore
 !plot_memory_profile.py
+
+!docker_slant_cpu_v1_0_memory_example.pdf
