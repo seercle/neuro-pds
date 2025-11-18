@@ -19,10 +19,7 @@ if [ -z "$TIME_FORMAT" ]; then
   exit 1
 fi
 
-#if [ ! -f "$OUTPUT_FILE" ]; then
-#  echo "Creating output file: $OUTPUT_FILE"
-#  echo "timestamp,memory_usage_gib" > "$OUTPUT_FILE"
-#fi
+echo "timestamp,used_memory_gib" > "$OUTPUT_FILE"
 
 while true; do
   TIMESTAMP=$(date +$TIME_FORMAT)

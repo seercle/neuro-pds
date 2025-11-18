@@ -1,0 +1,7 @@
+services:
+  macruise:
+    image: seercle/macruise_v3_1
+    container_name: macruise_v3_1
+    volumes:
+      - ../slant/OUTPUTS:/CUSTOM_INPUTS
+      - ./OUTPUTS:/CUSTOM_OUTPUTS
