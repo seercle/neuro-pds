@@ -47,6 +47,7 @@ find /CUSTOM_INPUTS -type f ! -path "*/.*" | sort | while read -r file; do
     file_name=$(basename "$file_name_ext" .nii.gz)
     mv /OUTPUTS "/CUSTOM_OUTPUTS/$file_name"
     chmod -R u+rwX,go+rX,go-w "/CUSTOM_OUTPUTS/$file_name"
+    mkdir -p /OUTPUTS
 
     elapsed_seconds=$((end_timestamp - $start_timestamp))
     elapsed_minutes=$((elapsed_seconds / 60))

@@ -31,6 +31,9 @@ find $INPUTS_DIR -type f | sort | while read -r file; do
     # Copy the file to TMP_INPUTS
     cp "$file" $TMP_INPUTS/
 
+    bash ./memory.sh "$INTERVAL_SECONDS" "$TMP_OUTPUTS/memory_trace.csv" "$DATE_FORMAT" &
+    mem_script_pid=$!
+
     start_timestamp=$(date +%s)
     echo "$(date -d @$start_timestamp +$DATE_FORMAT): Study of $(basename $file) started."
 
@@ -44,17 +47,18 @@ find $INPUTS_DIR -type f | sort | while read -r file; do
     end_timestamp=$(date +%s)
     echo "$(date -d @$end_timestamp +$DATE_FORMAT): Study of $(basename $file) ended."
 
+    # Stop the memory monitoring script
+    kill $mem_script_pid
+
     elapsed_seconds=$((end_timestamp - start_timestamp))
     elapsed_minutes=$((elapsed_seconds / 60))
     echo "Elapsed time: $elapsed_minutes minutes"
     echo "----------------------------------------"
 
-    # Create a directory in /OUTPUTS_DIR named after the file
     filename=$(basename "$file")
-    outputs_dir="$OUTPUTS_DIR/$filename"
 
     # Move the content of /TMP_OUTPUTS to the new directory
-    mv "$TMP_OUTPUTS" "$outputs_dir"
+    mv "$TMP_OUTPUTS" "$OUTPUTS_DIR/$filename"
     mkdir -p "$TMP_OUTPUTS"
 
     file_size_bytes=$(stat -c%s "$file")
