@@ -22,19 +22,19 @@ If this is your first time using this repository, please follow the steps below:
   - If you only need certain images, you can build them individually using the `build_all.sh` script as a reference.
 4. **Run the SLANT Docker image**
   - Choose a version of SLANT to run between `cpu_v1_0`, `cpu_v1_1`, `gpu_v1_0` and `gpu_v1_1`
-  - Edit the docker compose with the selected version. Either in `docker/slant/compose_cpu.yaml` for CPU versions, or `docker/slant/compose_gpu.yaml` for GPU versions (NVIDIA GPUs only)
+  - Edit the docker compose with the selected version. Either in `docker/slant/compose_cpu.yml` for CPU versions, or `docker/slant/compose_gpu.yml` for GPU versions (NVIDIA GPUs only)
   - You may want to edit things like the path to the dataset or the location of the outputs directory. If you have followed the previous steps, editing is not necessary as the default paths should work.
   - Run the selection version:
     ```bash
     cd docker/slant
-    docker compose up -d -f compose_[cpu|gpu].yaml
+    docker compose -f compose_[cpu|gpu].yml up -d
     ```
 5. **Run the MaCRUISE Docker image**
-  - Edit the docker compose in `docker/macruise/compose.yaml` with the CUSTOM_INPUTS volume pointing to the output directory of the previous SLANT run. If you did not edit the output directory in the SLANT docker compose, you should not need to change anything.
+  - Edit the docker compose in `docker/macruise/compose.yml` with the CUSTOM_INPUTS volume pointing to the output directory of the previous SLANT run. If you did not edit the output directory in the SLANT docker compose, you should not need to change anything.
   - Run the application:
     ```bash
     cd docker/macruise
-    docker compose up -d -f compose.yaml
+    docker compose -f compose.yml up -d 
     ```
 6. **Trace memory profiles (Docker only)**:
    - Choose an application you have previously ran Docker on (SLANT or MaCRUISE) and get the path to its output directory
