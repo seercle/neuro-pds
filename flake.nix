@@ -21,15 +21,21 @@
         pkgs = nixpkgs.legacyPackages.${system};
       in {
         devShells.default = pkgs.mkShell {
+          LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
           packages = with pkgs; [
-            git-annex
-            typst
-            (python313.withPackages (p:
-              with p; [
-                matplotlib
-              ]))
-            
-            docker
+            typst # To build the report
+            git-annex # To pull the old dataset
+            python313Full #For deepmriprep and plot scripts
+            tk # For deepmriprep-gui
+
+            /*
+            pkg-config.out
+            cairo.dev # For niftiview
+            */
+
+            docker # For SLANT and MaCRUISE
+
+            # Optional linters
             nixd
             ruff
             alejandra

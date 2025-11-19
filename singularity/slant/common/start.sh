@@ -1,5 +1,6 @@
 IMAGE=$1
 INPUTS_DIR=$2
+MEMORY_SCRIPT=$3
 
 OUTPUTS_DIR=./OUTPUTS
 OUTPUTS_FILE="$OUTPUTS_DIR/output.csv"
@@ -8,7 +9,7 @@ TMP_DIR=./tmp
 TMP_TMP="$TMP_DIR/tmp"
 TMP_INPUTS="$TMP_DIR/INPUTS"
 TMP_OUTPUTS="$TMP_DIR/OUTPUTS"
-LOG_FILE="$TMP_OUTPUTS/log.csv"
+LOG_FILE="$TMP_OUTPUTS/logs.csv"
 
 DATE_FORMAT="%Y-%m-%d_%H:%M:%S"
 
@@ -31,14 +32,14 @@ find $INPUTS_DIR -type f | sort | while read -r file; do
     # Copy the file to TMP_INPUTS
     cp "$file" $TMP_INPUTS/
 
-    bash ./memory.sh "$INTERVAL_SECONDS" "$TMP_OUTPUTS/memory_trace.csv" "$DATE_FORMAT" &
+    bash $MEMORY_SCRIPT "$INTERVAL_SECONDS" "$TMP_OUTPUTS/memory_trace.csv" "$DATE_FORMAT" &
     mem_script_pid=$!
 
     start_timestamp=$(date +%s)
     echo "$(date -d @$start_timestamp +$DATE_FORMAT): Study of $(basename $file) started."
 
     # Start singularity
-    export SINGULARITY_BINDPATH="$TMP_INPUTS:/INPUTS,$TMP_OUTPUTS:/OUTPUTS"
+    export SINGULARITY_BINDPATH="$TMP_INPUTS:/INPUTS,$TMP_OUTPUTS:/OUTPUTS,$TMP_TMP:/tmp"
     singularity exec $IMAGE /extra/run_deep_brain_seg.sh 2>&1 | while IFS= read -r log; do
       timestamp=$(date +$DATE_FORMAT)
       echo "$timestamp,$log" >> "$LOG_FILE"

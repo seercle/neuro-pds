@@ -24,7 +24,7 @@ echo "timestamp,used_memory_gib" > "$OUTPUT_FILE"
 while true; do
   TIMESTAMP=$(date +$TIME_FORMAT)
   MEMORY_USAGE_BYTES=$(vmstat -s | grep 'used memory' | cut -d'K' -f1)
-  MEMORY_USAGE_GIB=$(awk "BEGIN {printf \"%.2f\", $MEMORY_USAGE_BYTES / 1073741824}")
+  MEMORY_USAGE_GIB=$(awk "BEGIN {printf \"%.2f\", $MEMORY_USAGE_BYTES / 1048576}")
   echo "$TIMESTAMP,$MEMORY_USAGE_GIB" >> "$OUTPUT_FILE"
   sleep "$INTERVAL_SECONDS"
 done

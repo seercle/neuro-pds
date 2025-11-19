@@ -1,5 +1,6 @@
 /*
 !datasets/
+!deepmriprep/
 !docker/
 !dockerfiles/
 !plots/
@@ -11,4 +12,5 @@
 !flake.lock
 !flake.nix
 !paper.pdf
+!requirements.txt
 !README.md
