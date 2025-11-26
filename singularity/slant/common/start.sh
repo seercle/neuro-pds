@@ -11,6 +11,7 @@ TMP_INPUTS="$TMP_DIR/INPUTS"
 TMP_OUTPUTS="$TMP_DIR/OUTPUTS"
 LOG_FILE="$TMP_OUTPUTS/logs.csv"
 
+INTERVAL_SECONDS=2
 DATE_FORMAT="%Y-%m-%d_%H:%M:%S"
 
 mkdir -p $OUTPUTS_DIR
@@ -40,6 +41,7 @@ find $INPUTS_DIR -type f | sort | while read -r file; do
 
     # Start singularity
     export SINGULARITY_BINDPATH="$TMP_INPUTS:/INPUTS,$TMP_OUTPUTS:/OUTPUTS,$TMP_TMP:/tmp"
+    #numactl --physcpubind=0-11,64-75,32-43,96-107 --localalloc singularity exec $IMAGE /extra/run_deep_brain_seg.sh 2>&1 | while IFS= read -r log; do
     singularity exec $IMAGE /extra/run_deep_brain_seg.sh 2>&1 | while IFS= read -r log; do
       timestamp=$(date +$DATE_FORMAT)
       echo "$timestamp,$log" >> "$LOG_FILE"
