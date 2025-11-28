@@ -1,0 +1,320 @@
+2025-11-26_13:44:54,[H[2Jmv: '/INPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold.nii.gz' and '/INPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold.nii.gz' are the same file
+2025-11-26_13:44:54,[00h 00m 00s] ************************************************************
+2025-11-26_13:44:54,[00h 00m 00s] Target Image: /INPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold.nii.gz
+2025-11-26_13:44:54,[00h 00m 00s] Output Directory: /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/
+2025-11-26_13:44:54,[00h 00m 00s] NiftyReg Location: /extra/full-multi-atlas/niftyreg/bin/
+2025-11-26_13:44:54,[00h 00m 00s] ANTs Location: /extra/full-multi-atlas/ANTs-bin/
+2025-11-26_13:44:54,[00h 00m 00s] Atlas Processing Location: /extra/full-multi-atlas/atlas-processing/
+2025-11-26_13:44:54,[00h 00m 00s] MNI Template Location: /extra/full-multi-atlas/MNI/
+2025-11-26_13:44:54,[00h 00m 00s] Run Type: single
+2025-11-26_13:44:54,[00h 00m 00s] ************************************************************
+2025-11-26_13:44:54,[00h 00m 00s] 
+2025-11-26_13:44:54,[00h 00m 00s] *** Running Pre-Processing ***
+2025-11-26_13:44:54,[00h 00m 00s] 
+2025-11-26_13:44:54,[00h 00m 00s] -> Registering target image to MNI space
+2025-11-26_13:44:54,[00h 00m 00s] Target Image: /INPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold.nii.gz
+2025-11-26_13:44:54,[00h 00m 00s] MNI Image: /extra/full-multi-atlas/MNI/average305_t1_tal_lin.nii.gz
+2025-11-26_13:44:54,[00h 00m 00s] MNI Mask: /extra/full-multi-atlas/MNI/average305_t1_tal_lin_mask.nii.gz
+2025-11-26_13:58:45,[00h 13m 51s] Registration finished (see /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold//temp-out/MNI-registration.txt)
+2025-11-26_13:58:45,[00h 13m 51s] Computing inverse affine transformation
+2025-11-26_13:58:45,[00h 13m 51s] Rigid Registration result: /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/MNI-registration/target_MNI.nii.gz
+2025-11-26_13:58:45,[00h 13m 51s] Rigid Registration matrix: /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/MNI-registration/target_MNI_aff.mtx
+2025-11-26_13:58:45,[00h 13m 51s] Inverse Rigid Registration matrix: /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/MNI-registration/target_MNI_aff.mtx
+2025-11-26_13:58:45,[00h 13m 51s] 
+2025-11-26_13:58:45,[00h 13m 51s] -> Running N4 Correction
+2025-11-26_13:58:45,[00h 13m 51s] Target: /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/MNI-registration/target_MNI.nii.gz
+2025-11-26_13:58:45,[00h 13m 51s] Corrected Target: /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold//N4-targets/target_MNI.nii.gz
+2025-11-26_13:58:57,[00h 14m 02s] 
+2025-11-26_13:58:57,[00h 14m 02s] -> Loading Multi-Atlas Appearance model: /extra/full-multi-atlas/atlas-processing/atlas_model.mat
+2025-11-26_13:58:57,[00h 14m 03s] 
+2025-11-26_13:58:57,[00h 14m 03s] -> Loading Processed Reclean_sublist(sublist);gistration Result
+2025-11-26_13:58:58,[00h 14m 03s] 
+2025-11-26_13:58:58,[00h 14m 03s] -> Normaling target intensities to model space
+2025-11-26_13:59:02,[00h 14m 08s] Found the robust (huber) regression parameters: -0.044393 1.132325
+2025-11-26_13:59:02,[00h 14m 08s] Saved normalized image to: /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/target_processed.nii.gz
+2025-11-26_13:59:02,[00h 14m 08s] 
+2025-11-26_13:59:02,[00h 14m 08s] -> Projecting target to model space
+2025-11-26_13:59:03,[00h 14m 09s] Estimated likelihood: 0.339807
+2025-11-26_13:59:03,[00h 14m 09s] 
+2025-11-26_13:59:07,*******preprocessing time: 854.778039 seconds
+2025-11-26_13:59:08,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='1_1_1', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_13:59:08,using CPU with one thread
+2025-11-26_13:59:08,==start training==
+2025-11-26_13:59:08,
+2025-11-26_13:59:08,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_13:59:08,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:02:04,
+2025-11-26_14:02:04,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:55<00:00, 175.98s/it][A
+2025-11-26_14:02:04,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:56<00:00, 176.30s/it]
+2025-11-26_14:02:05,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='1_1_2', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:02:05,using CPU with one thread
+2025-11-26_14:02:05,==start training==
+2025-11-26_14:02:05,
+2025-11-26_14:02:05,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:02:05,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:05:04,
+2025-11-26_14:05:04,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:59<00:00, 179.52s/it][A
+2025-11-26_14:05:05,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:59<00:00, 179.86s/it]
+2025-11-26_14:05:05,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='1_1_3', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:05:05,using CPU with one thread
+2025-11-26_14:05:05,==start training==
+2025-11-26_14:05:05,
+2025-11-26_14:05:06,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:05:06,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:08:03,
+2025-11-26_14:08:03,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:57<00:00, 177.74s/it][A
+2025-11-26_14:08:03,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:58<00:00, 178.08s/it]
+2025-11-26_14:08:04,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='1_2_1', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:08:04,using CPU with one thread
+2025-11-26_14:08:04,==start training==
+2025-11-26_14:08:04,
+2025-11-26_14:08:04,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:08:04,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:11:02,
+2025-11-26_14:11:02,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:57<00:00, 177.41s/it][A
+2025-11-26_14:11:02,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:57<00:00, 177.74s/it]
+2025-11-26_14:11:03,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='1_2_2', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:11:03,using CPU with one thread
+2025-11-26_14:11:03,==start training==
+2025-11-26_14:11:03,
+2025-11-26_14:11:03,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:11:03,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:14:03,
+2025-11-26_14:14:03,Valid epoch=27: 100%|████████████████████████████| 1/1 [03:00<00:00, 180.25s/it][A
+2025-11-26_14:14:03,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [03:00<00:00, 180.58s/it]
+2025-11-26_14:14:04,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='1_2_3', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:14:04,using CPU with one thread
+2025-11-26_14:14:04,==start training==
+2025-11-26_14:14:04,
+2025-11-26_14:14:04,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:14:04,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:17:03,
+2025-11-26_14:17:03,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:59<00:00, 179.15s/it][A
+2025-11-26_14:17:04,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:59<00:00, 179.49s/it]
+2025-11-26_14:17:04,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='1_3_1', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:17:04,using CPU with one thread
+2025-11-26_14:17:04,==start training==
+2025-11-26_14:17:04,
+2025-11-26_14:17:05,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:17:05,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:20:02,
+2025-11-26_14:20:02,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:57<00:00, 177.32s/it][A
+2025-11-26_14:20:02,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:57<00:00, 177.65s/it]
+2025-11-26_14:20:03,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='1_3_2', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:20:03,using CPU with one thread
+2025-11-26_14:20:03,==start training==
+2025-11-26_14:20:03,
+2025-11-26_14:20:03,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:20:03,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:23:04,
+2025-11-26_14:23:04,Valid epoch=27: 100%|████████████████████████████| 1/1 [03:01<00:00, 181.47s/it][A
+2025-11-26_14:23:05,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [03:01<00:00, 181.81s/it]
+2025-11-26_14:23:05,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='1_3_3', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:23:05,using CPU with one thread
+2025-11-26_14:23:05,==start training==
+2025-11-26_14:23:05,
+2025-11-26_14:23:06,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:23:06,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:26:05,
+2025-11-26_14:26:05,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:59<00:00, 179.17s/it][A
+2025-11-26_14:26:05,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:59<00:00, 179.51s/it]
+2025-11-26_14:26:06,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='2_1_1', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:26:06,using CPU with one thread
+2025-11-26_14:26:06,==start training==
+2025-11-26_14:26:06,
+2025-11-26_14:26:06,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:26:06,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:29:06,
+2025-11-26_14:29:06,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:59<00:00, 179.82s/it][A
+2025-11-26_14:29:06,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [03:00<00:00, 180.17s/it]
+2025-11-26_14:29:07,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='2_1_2', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:29:07,using CPU with one thread
+2025-11-26_14:29:07,==start training==
+2025-11-26_14:29:07,
+2025-11-26_14:29:07,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:29:07,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:32:06,
+2025-11-26_14:32:06,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:59<00:00, 179.08s/it][A
+2025-11-26_14:32:06,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:59<00:00, 179.42s/it]
+2025-11-26_14:32:07,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='2_1_3', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:32:07,using CPU with one thread
+2025-11-26_14:32:07,==start training==
+2025-11-26_14:32:07,
+2025-11-26_14:32:07,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:32:07,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:35:05,
+2025-11-26_14:35:05,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:58<00:00, 178.71s/it][A
+2025-11-26_14:35:06,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:59<00:00, 179.03s/it]
+2025-11-26_14:35:07,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='2_2_1', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:35:07,using CPU with one thread
+2025-11-26_14:35:07,==start training==
+2025-11-26_14:35:07,
+2025-11-26_14:35:07,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:35:07,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:38:08,
+2025-11-26_14:38:08,Valid epoch=27: 100%|████████████████████████████| 1/1 [03:01<00:00, 181.25s/it][A
+2025-11-26_14:38:08,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [03:01<00:00, 181.59s/it]
+2025-11-26_14:38:09,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='2_2_2', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:38:09,using CPU with one thread
+2025-11-26_14:38:09,==start training==
+2025-11-26_14:38:09,
+2025-11-26_14:38:09,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:38:09,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:41:06,
+2025-11-26_14:41:06,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:57<00:00, 177.29s/it][A
+2025-11-26_14:41:07,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:57<00:00, 177.62s/it]
+2025-11-26_14:41:07,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='2_2_3', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:41:07,using CPU with one thread
+2025-11-26_14:41:07,==start training==
+2025-11-26_14:41:07,
+2025-11-26_14:41:08,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:41:08,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:45:52,
+2025-11-26_14:45:52,Valid epoch=27: 100%|████████████████████████████| 1/1 [04:44<00:00, 284.36s/it][A
+2025-11-26_14:45:52,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [04:44<00:00, 284.70s/it]
+2025-11-26_14:45:53,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='2_3_1', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:45:53,using CPU with one thread
+2025-11-26_14:45:53,==start training==
+2025-11-26_14:45:53,
+2025-11-26_14:45:53,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:45:53,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:48:51,
+2025-11-26_14:48:51,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:58<00:00, 178.52s/it][A
+2025-11-26_14:48:52,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:58<00:00, 178.86s/it]
+2025-11-26_14:48:52,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='2_3_2', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:48:52,using CPU with one thread
+2025-11-26_14:48:52,==start training==
+2025-11-26_14:48:52,
+2025-11-26_14:48:53,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:48:53,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:51:55,
+2025-11-26_14:51:55,Valid epoch=27: 100%|████████████████████████████| 1/1 [03:02<00:00, 182.15s/it][A
+2025-11-26_14:51:55,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [03:02<00:00, 182.49s/it]
+2025-11-26_14:51:56,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='2_3_3', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:51:56,using CPU with one thread
+2025-11-26_14:51:56,==start training==
+2025-11-26_14:51:56,
+2025-11-26_14:51:56,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:51:56,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:54:53,
+2025-11-26_14:54:53,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:56<00:00, 176.97s/it][A
+2025-11-26_14:54:53,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:57<00:00, 177.31s/it]
+2025-11-26_14:54:54,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='3_1_1', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:54:54,using CPU with one thread
+2025-11-26_14:54:54,==start training==
+2025-11-26_14:54:54,
+2025-11-26_14:54:54,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:54:54,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_14:57:52,
+2025-11-26_14:57:52,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:57<00:00, 177.94s/it][A
+2025-11-26_14:57:52,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:58<00:00, 178.28s/it]
+2025-11-26_14:57:53,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='3_1_2', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_14:57:53,using CPU with one thread
+2025-11-26_14:57:53,==start training==
+2025-11-26_14:57:53,
+2025-11-26_14:57:53,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_14:57:53,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_15:00:49,
+2025-11-26_15:00:50,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:56<00:00, 176.65s/it][A
+2025-11-26_15:00:50,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:56<00:00, 176.99s/it]
+2025-11-26_15:00:51,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='3_1_3', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_15:00:51,using CPU with one thread
+2025-11-26_15:00:51,==start training==
+2025-11-26_15:00:51,
+2025-11-26_15:00:51,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_15:00:51,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_15:03:49,
+2025-11-26_15:03:49,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:58<00:00, 178.33s/it][A
+2025-11-26_15:03:49,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:58<00:00, 178.67s/it]
+2025-11-26_15:03:50,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='3_2_1', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_15:03:50,using CPU with one thread
+2025-11-26_15:03:50,==start training==
+2025-11-26_15:03:50,
+2025-11-26_15:03:50,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_15:03:50,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_15:06:47,
+2025-11-26_15:06:47,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:56<00:00, 176.94s/it][A
+2025-11-26_15:06:47,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:57<00:00, 177.27s/it]
+2025-11-26_15:06:48,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='3_2_2', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_15:06:48,using CPU with one thread
+2025-11-26_15:06:48,==start training==
+2025-11-26_15:06:48,
+2025-11-26_15:06:48,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_15:06:48,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_15:09:47,
+2025-11-26_15:09:47,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:59<00:00, 179.06s/it][A
+2025-11-26_15:09:47,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:59<00:00, 179.40s/it]
+2025-11-26_15:09:48,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='3_2_3', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_15:09:48,using CPU with one thread
+2025-11-26_15:09:48,==start training==
+2025-11-26_15:09:48,
+2025-11-26_15:09:48,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_15:09:48,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_15:12:49,
+2025-11-26_15:12:49,Valid epoch=27: 100%|████████████████████████████| 1/1 [03:00<00:00, 180.30s/it][A
+2025-11-26_15:12:49,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [03:00<00:00, 180.64s/it]
+2025-11-26_15:12:50,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='3_3_1', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_15:12:50,using CPU with one thread
+2025-11-26_15:12:50,==start training==
+2025-11-26_15:12:50,
+2025-11-26_15:12:50,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_15:12:50,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_15:15:48,
+2025-11-26_15:15:48,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:58<00:00, 178.17s/it][A
+2025-11-26_15:15:48,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:58<00:00, 178.51s/it]
+2025-11-26_15:15:49,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='3_3_2', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_15:15:49,using CPU with one thread
+2025-11-26_15:15:49,==start training==
+2025-11-26_15:15:49,
+2025-11-26_15:15:49,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_15:15:49,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_15:18:48,
+2025-11-26_15:18:48,Valid epoch=27: 100%|████████████████████████████| 1/1 [02:58<00:00, 178.84s/it][A
+2025-11-26_15:18:48,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [02:59<00:00, 179.19s/it]
+2025-11-26_15:18:49,Test:   0%|                                               | 0/1 [00:00<?, ?it/s]Namespace(model_dir='/extra/model_dir', out_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece', piece='3_3_3', test_img_dir='/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/deep_learning', used_epoch=27)
+2025-11-26_15:18:49,using CPU with one thread
+2025-11-26_15:18:49,==start training==
+2025-11-26_15:18:49,
+2025-11-26_15:18:49,Valid epoch=27:   0%|                                     | 0/1 [00:00<?, ?it/s][A/extra/python/torchsrc/trainer.py:183: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+2025-11-26_15:18:49,  data, target = Variable(data,volatile=True), Variable(target,volatile=True)
+2025-11-26_15:21:50,
+2025-11-26_15:21:50,Valid epoch=27: 100%|████████████████████████████| 1/1 [03:01<00:00, 181.24s/it][A
+2025-11-26_15:21:50,                                                                                [ATest: 100%|██████████████████████████████████████| 1/1 [03:01<00:00, 181.58s/it]
+2025-11-26_15:21:51,*******segmentation time: 4963.648760 seconds
+2025-11-26_15:22:32,[H[2Jstart label fusion si=1, ei=1
+2025-11-26_15:22:32,Elapsed time is 39.626873 seconds.
+2025-11-26_15:25:05,Elapsed time is 192.217710 seconds.
+2025-11-26_15:25:05,start inv reg si=1, ei=1
+2025-11-26_15:33:37,/bin/bash: line 1: 3292166 Segmentation fault      (core dumped) /extra/full-multi-atlas/ANTs-bin//bin//antsApplyTransforms -d 3 -i /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece/5000_fusion27_mv/test_out/seg_output/epoch_0027/seg_orig_final/target_processed_seg.nii.gz -o /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece/5000_fusion27_mv/test_out/seg_output/epoch_0027/inv_orig_space/target_processed_orig_seg.nii.gz -r /INPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold.nii.gz -n MultiLabel -t /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece/5000_fusion27_mv/test_out/seg_output/epoch_0027/inv_orig_space/target_processed_inv_reg/inverse-MNI-registration//inverse-MNI-reg0GenericAffine.mat >> /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece/5000_fusion27_mv/test_out/seg_output/epoch_0027/inv_orig_space/target_processed_inv_reg/temp//inverse-MNI-reg-output.txt
+2025-11-26_15:33:37,. ~/.bashrc && /extra/full-multi-atlas/ANTs-bin//bin//antsApplyTransforms -d 3 -i /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece/5000_fusion27_mv/test_out/seg_output/epoch_0027/seg_orig_final/target_processed_seg.nii.gz -o /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece/5000_fusion27_mv/test_out/seg_output/epoch_0027/inv_orig_space/target_processed_orig_seg.nii.gz -r /INPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold.nii.gz -n MultiLabel -t /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece/5000_fusion27_mv/test_out/seg_output/epoch_0027/inv_orig_space/target_processed_inv_reg/inverse-MNI-registration//inverse-MNI-reg0GenericAffine.mat >> /OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece/5000_fusion27_mv/test_out/seg_output/epoch_0027/inv_orig_space/target_processed_inv_reg/temp//inverse-MNI-reg-output.txt
+2025-11-26_15:33:37,: Segmentation fault
+2025-11-26_15:33:37,Elapsed time is 704.531345 seconds.
+2025-11-26_15:33:37,fusion done si=1, ei=27
+2025-11-26_15:33:37,cp: cannot stat '/OUTPUTS/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold/working_dir/all_piece/5000_fusion27_mv/test_out/seg_output/epoch_0027/inv_orig_space/target_processed_orig_seg.nii.gz': No such file or directory
+2025-11-26_15:33:41,*******postprocessing time: 710.671393 seconds
+2025-11-26_15:33:44,[H[2JStart Making PDF...
+2025-11-26_15:33:49,Finish Making PDF...
+2025-11-26_15:33:52,*******generating pdf time: 10.325957 seconds
+2025-11-26_15:33:54,[H[2J-> Saving Label Volume Information
+2025-11-26_15:33:54,Output Text File: /OUTPUTS/FinalVolTxt/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold_label_volumes.txt
+2025-11-26_15:33:54,gzip: /OUTPUTS/FinalResult/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold_seg.nii.gz: No such file or directory
+2025-11-26_15:33:54,Something is strange. Loading it untouched: /OUTPUTS/FinalResult/sub-rid000011_task-raiders_acq-8ch344vol_run-07_bold_seg.nii.gz
+2025-11-26_15:33:54,The resulting nii file CANNOT be trusted
+2025-11-26_15:33:54,Error using load_untouch0_nii_hdr (line 12)
+2025-11-26_15:33:54,Cannot open file /tmp/tmp-3292692-81472369.hdr.
+2025-11-26_15:33:54,
+2025-11-26_15:33:54,Error in load_untouch_nii (line 106)
+2025-11-26_15:33:54,
+2025-11-26_15:33:54,
+2025-11-26_15:33:54,Error in load_nii_gz (line 42)
+2025-11-26_15:33:54,
+2025-11-26_15:33:54,
+2025-11-26_15:33:54,Error in save_txt_file (line 6)
+2025-11-26_15:33:54,
+2025-11-26_15:33:54,
+2025-11-26_15:33:54,Error in generate_volume_stat (line 30)
+2025-11-26_15:33:54,
+2025-11-26_15:33:54,
+2025-11-26_15:33:54,
+2025-11-26_15:33:56,*******generating text file time: 4.288705 seconds
+2025-11-26_15:33:56,INFO:    Cleaning up image...
