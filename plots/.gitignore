@@ -3,5 +3,8 @@
 !plot_walltime.py
 !plot_memory_profile.py
 
-!docker_slant_cpu_v1_0_memory_example.pdf
 !singularity_slant_cpu_v1_0_walltime_example.pdf
+!singularity_slant_cpu_v1_0_memory_example.pdf
+
+!docker_slant_cpu_v1_0_walltime_example.pdf
+!docker_slant_cpu_v1_0_memory_example.pdf
