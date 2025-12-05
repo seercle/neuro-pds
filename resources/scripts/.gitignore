@@ -1,4 +1,5 @@
 /*
 !.gitignore
+!analyze_elapsed_times.py
 !clean_directories.sh
 !extract_slant_times.py
