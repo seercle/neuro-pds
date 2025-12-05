@@ -47,7 +47,7 @@ for file in files:
     print(f"Starting preprocessing for {file_path}")
 
     start = datetime.now()
-    run_preprocess([file_path], output_dir=file_output_dir)
+    run_preprocess([file_path], output_dir=file_output_dir, outputs="all", no_gpu=True)
     elapsed = datetime.now() - start
     elapsed_seconds = elapsed.total_seconds()
 
