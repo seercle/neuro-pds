@@ -1,4 +1,5 @@
 /*
 !.gitignore
-!import_raiders.sh
+!import_raiders_fmri.sh
+!import_raiders_t1.sh
 !README.md

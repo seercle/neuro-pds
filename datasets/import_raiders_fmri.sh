@@ -1,5 +1,5 @@
 REPO_URL="http://datasets-dev.datalad.org/labs/haxby/raiders"
-DEST_DIR="./RAIDERS"
+DEST_DIR="./RAIDERS_FMRI"
 FILES=(
   "sub-rid000005_task-raiders_acq-8ch326vol_run-04_bold.nii.gz"
   "sub-rid000005_task-raiders_acq-8ch336vol_run-01_bold.nii.gz"
