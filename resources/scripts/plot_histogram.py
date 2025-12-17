@@ -1,6 +1,5 @@
 import argparse
 import csv
-import math
 import sys
 from collections import Counter
 

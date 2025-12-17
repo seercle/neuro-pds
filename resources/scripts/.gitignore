@@ -1,6 +1,6 @@
 /*
 !.gitignore
-!clean_directories.sh
+!clean_slant_output.sh
 !extract_slant_times.py
 !get_walltime_stats.py
 !plot_histogram.py
