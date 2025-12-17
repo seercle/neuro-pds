@@ -6,5 +6,5 @@ services:
     environment:
       - INTERVAL_SECONDS=2
     volumes:
-      - ../../datasets/RAIDERS:/CUSTOM_INPUTS
+      - ../../datasets/RAIDERS_FMRI:/CUSTOM_INPUTS
       - ./OUTPUTS:/CUSTOM_OUTPUTS

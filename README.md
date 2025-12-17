@@ -11,7 +11,8 @@ If this is your first time using this repository, please follow the steps below:
    - Download the raiders dataset in the directory (this will download approximately 4.8GB of data):
      ```bash
      cd datasets
-     bash import_raiders.sh
+     bash import_raiders_fmri.sh
+     bash import_raiders_t1.sh
      ```
 3. **Build the Docker images**:
   - Navigate to the `dockerfiles` directory and build the docker images (this will download approximately 52GB of data):
@@ -22,25 +23,25 @@ If this is your first time using this repository, please follow the steps below:
   - If you only need certain images, you can build them individually using the `build_all.sh` script as a reference.
 4. **Run the SLANT Docker image**
   - Choose a version of SLANT to run between `cpu_v1_0`, `cpu_v1_1`, `gpu_v1_0` and `gpu_v1_1`
-  - Edit the docker compose with the selected version. Either in `docker/slant/compose_cpu.yml` for CPU versions, or `docker/slant/compose_gpu.yml` for GPU versions (NVIDIA GPUs only)
+  - Edit the docker compose with the selected version. Either in `slant/docker/compose_cpu.yml` for CPU versions, or `slant/docker/compose_gpu.yml` for GPU versions (NVIDIA GPUs only)
   - You may want to edit things like the path to the dataset or the location of the outputs directory. If you have followed the previous steps, editing is not necessary as the default paths should work.
   - Run the selection version:
     ```bash
-    cd docker/slant
+    cd slant/docker
     docker compose -f compose_[cpu|gpu].yml up -d
     ```
 5. **Run the MaCRUISE Docker image**
-  - Edit the docker compose in `docker/macruise/compose.yml` with the CUSTOM_INPUTS volume pointing to the output directory of the previous SLANT run. If you did not edit the output directory in the SLANT docker compose, you should not need to change anything.
+  - Edit the docker compose in `macruise/compose.yml` with the CUSTOM_INPUTS volume pointing to the output directory of the previous SLANT run. If you did not edit the output directory in the SLANT docker compose, you should not need to change anything.
   - Run the application:
     ```bash
-    cd docker/macruise
+    cd macruise
     docker compose -f compose.yml up -d 
     ```
 6. **Trace memory profiles (Docker only)**:
    - Choose an application you have previously ran Docker on (SLANT or MaCRUISE) and get the path to its output directory
    - Run the script (requires `matplotlib`):
      ```bash
-     cd docker
+     cd plots
      python plot_memory_profile.py [path_to_the_output_directory_of_the_application]
      ```
     - This should create a file named `pdf_memory_profile.pdf` in the current directory.
@@ -50,13 +51,13 @@ If this is your first time using this repository, please follow the steps below:
     - Choose a version of SLANT to run between `cpu_v1_0`, `cpu_v1_1`, `gpu_v1_0` and `gpu_v1_1`
     - Navigate to that directory and build the corresponding image (this will create an image of approximately 8GB of data):
       ```bash
-      cd singularity/slant/[slant_version]
+      cd slant/singularity/[slant_version]
       bash build.sh
       ```
   - 2. **Run the SLANT Singularity container**:
-    - You may want to change the path to the dataset in `singularity/slant/[slant_version]/run.sh`
+    - You may want to change the path to the dataset in `slant/singularity/[slant_version]/run.sh`
       ```bash
-      cd singularity/slant/[slant_version]
+      cd slant/singularity/[slant_version]
       bash run.sh
       ```
 8. **Trace walltime profile (Docker and Singularity)**:

@@ -2,11 +2,11 @@
 !antspy/
 !datasets/
 !deepmriprep/
-!docker/
 !dockerfiles/
+!macruise
 !plots/
 !resources/
-!singularity/
+!slant/
 !typst/
 !.gitignore
 !.gitmodules
