@@ -24,6 +24,7 @@
           LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
           packages = with pkgs; [
             typst # To build the report
+            pdf2svg
             git-annex # To pull the old dataset
             python313Full #For deepmriprep and plot scripts
             tk # For deepmriprep-gui

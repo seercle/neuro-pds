@@ -1,5 +1,4 @@
 #import "@preview/charged-ieee:0.1.4": ieee
-
 #show: ieee.with(
   title: [Performance Analysis and Walltime Prediction for Neuroscience Applications],
   abstract: [
@@ -24,6 +23,8 @@
   figure-supplement: [Fig.],
 )
 
+#show figure.caption: set align(center)
+
 = Introduction
 
 When designing an application, it is crucial to know whether it will run consistently depending on the input parameters.
@@ -43,6 +44,8 @@ For each application, we will measure the execution time and memory footprint fo
 All experiments were conducted on a machine with the following specifications:
 - CPUs: 2 AMD EPYC 7502 32-Core Processor (64 threads \@ 2.50GHz)
 - RAM: 504 GiB
+- GPU: NVIDIA Quadro RTX 5000
+
 When running the applications, we ensured that no other significant processes were running on the machine to avoid interference with the measurements.
 Still, some background processes were taking on average 1% of CPU and 6% of RAM (i.e. around 30GiB of RAM).
 
@@ -59,7 +62,82 @@ Although SLANT is supposed to take 3D, T1-weighted MRI scans as input, we tested
 We studied both the CPU and GPU implementations of SLANT, taking into account both the execution time and memory footprint of SLANT with two different runtimes:
 - Docker
 - Singularity
-Additionally, we varied the number of threads used for the CPU implementation with Singularity. We tested with:
-- 1 thread
-- all 128 threads
-- 24 threads on one cpu socket, and 24 threads on the other cpu socket (48 threads in total)
+
+=== SLANT CPU Singularity
+
+In this part, we study how the SLANT CPU implementation with Singularity performs depending on the number of threads used.
+We tested the algorithm with 1 thread, 48 threads and 128 threads.
+
+#figure(
+  image("images/walltime_slant_cpu_singularity_single_cpu.svg"),
+  caption: "SLANT CPU Singularity Walltime vs fMRI number of scans for one threads"
+)
+
+#figure(
+  image("images/walltime_slant_cpu_singularity_some_cpus.svg"),
+  caption: "SLANT CPU Singularity Walltime vs fMRI number of scans for 48 threads"
+)
+#figure(
+  image("images/walltime_slant_cpu_singularity_all_cpus.svg"),
+  caption: "SLANT CPU Singularity Walltime vs fMRI number of scans for all 128 threads"
+)
+
+We can observe in Figure 1, Figure 2 and Figure 3 that the walltime does not vary significantly with the number of threads used. Morehover, the walltime does not seem to vary depending on the input,
+staying at around 110 minutes. The times are displayed on the table below:
+
+#figure(
+  caption: [Mean and Standard Deviation of SLANT CPU Singularity Walltime (in seconds)],
+  table(
+    columns: 3,
+    stroke: (x, y) => if y <= 1 { (top: 0.5pt) },
+    fill: (x, y) => if y > 0 and calc.rem(y, 2) == 0  { rgb("#efefef") },
+
+    table.header[Nb of threads][Mean time (min)][Std Dev (min)],
+    [1], [106.33], [0.55],
+    [48], [106.79], [4.12],
+    [128], [108.12], [4.11],
+  )
+)
+
+#figure(
+  caption: [Mean and Standard Deviation walltime of each step for SLANT CPU Singularity (in seconds)],
+  table(
+    columns: 7,
+    stroke: (x, y) => if y <= 1 { (top: 0.5pt) },
+    fill: (x, y) => if y > 0 and calc.rem(y, 2) == 0  { rgb("#efefef") },
+
+    table.header[Nb of threads][Preprocessing (mean)][Preprocessing (std)][Segmentation (mean)][Segmentation (std)][Postprocessing (mean)][Postprocessing (std)],
+    [1], [931], [25], [4820], [11], [588], [8],
+    [48], [836], [39], [4906], [212], [660], [55],
+    [128], [856], [41], [4924], [78], [705], [224],
+  )
+)
+
+We see that, in each step of the algorithm, the standard deviation is very low compared to the mean time, showing that the execution time is very consistent regardless of the input.
+
+#figure(
+  image("images/memory_profile_slant_cpu_docker_all_cpus.svg"),
+  caption: "SLANT CPU Docker memory profile for all 128 threads"
+)
+
+#figure(
+  image("images/memory_profile_slant_cpu_singularity_all_cpus.svg"),
+  caption: "SLANT CPU Singularity memory profile for all 128 threads. Notice the Y-axis does not start at 0 due to the high background memory usage."
+)
+
+
+
+#figure(
+  caption: [Mean and Standard Deviation walltime of deepmriprep in seconds],
+  table(
+    columns: 5,
+    stroke: (x, y) => if y <= 1 { (top: 0.5pt) },
+    fill: (x, y) => if y > 0 and calc.rem(y, 2) == 0  { rgb("#efefef") },
+
+    table.header[Type][Nb of threads][Output type][Walltime (mean)][Walltime (std)],
+    [cpu],[1], [all], [326.5], [2.3],
+    [cpu],[128], [all], [85.6], [1.6],
+    [cpu],[128], [rbm], [51.1], [1.0],
+    [gpu],[128],[vbm], [17.0], [1.0],
+  )
+)
