@@ -38,7 +38,8 @@ All experiments were conducted on a server node with the following specification
 - RAM: 504 GiB
 - GPU: NVIDIA Quadro RTX 5000
 
-To minimize interference, we ensured that no other significant user processes were active during experiments. Background system processes consumed approximately 1% of CPU and 6% of RAM (~30 GiB) on average.
+To minimize interference, we ensured that no other significant user processes were active during experiments.
+Background system processes consumed approximately 1% of CPU and 6% of RAM (\~30 GiB) on average.
 
 We measured application memory usage using two methods:
 - For Docker-based applications, we queried `/sys/fs/cgroup/memory.current` to obtain precise container memory usage.
@@ -61,7 +62,8 @@ They observed that the execution time of SLANT varied significantly depending on
 This result was obtained using a Singularity@singularity image of SLANT v1.0 in CPU mode, running on a machine with two
 Intel Xeon E5-2680v3 processors (12core \@ 2,5 GHz) with an unspecified amount of RAM.
 We can find the exact dataset used to perform the DRD experiments in the GitHub repository associated with the study@hpc2020-github.
-This is a dataset containing 87 images of fMRI (Functional magnetic resonance imaging) scans.
+This is a dataset containing 87 images of fMRI (Functional magnetic resonance imaging) scans from
+the Dartmouth Raiders Dataset (DRD)@drd.
 Each is a 4D scan, with 326 pictures at resolution of 80x80x41 voxels.
 While SLANT is designed for 3D T1-weighted MRI scans, we utilized the DRD dataset to benchmark computational performance, noting that the segmentation output itself is not clinically valid for this data type.
 
@@ -69,7 +71,7 @@ These findings are particularly compelling as they demonstrate significant varia
 Replicating these results would allow us to model and predict this variability based on input parameters, thereby optimizing resource allocation.
 
 To replicate the previous results, we ran the same SLANT CPU Singularity implementation
-on our platform using the same fMRI dataset from the Dartmouth Raiders Dataset (DRD)@drd.
+on our platform using the same DRD fMRI dataset.
 
 We ran the SLANT algorithm in three different configurations:
 - Using 1 thread
@@ -175,13 +177,22 @@ showing that the variability observed in the previous study is most likely not t
 
 == Other SLANT Versions
 
-In case the previous study@hpc2020 used by mistake either a different version or the GPU mode of SLANT,
+In case the previous study used by mistake either a different version or the GPU mode of SLANT,
 we used the same dataset to run SLANT on the following versions and configurations:
 - SLANT v1.0 GPU Docker
 - SLANT v1.1 CPU Docker
 - SLANT v1.1 GPU Docker
 
-// Ajouter le tableau des résultats pour les autres versions de SLANT
+#figure(
+  caption: [Mean and Standard Deviation Walltime of SLANT],
+  table(
+    columns: 5,
+    stroke: (x, y) => if y <= 1 { (top: 0.5pt) },
+    fill: (x, y) => if y > 0 and calc.rem(y, 2) == 0  { rgb("#efefef") },
+
+    table.header[Mode][Version][Thread count][Mean time (min)][Std Dev (min)],
+  )
+) <tab:slant_other_walltime>
 
 To ensure the discrepancy wasn't due to version mismatches or hardware acceleration differences,
 we extended our benchmarking to SLANT v1.0 (GPU) and v1.1 (CPU and GPU). Across all configurations,
@@ -202,7 +213,7 @@ Thus, the segmentation step is deterministic, meaning that for a given input, th
 The previous study@hpc2020 showed time variations, with the standard deviation being 8.5% of the mean time for the segmentation step,
 which is substantially higher than our results, but can still be considered low.
 However, the variation in the previous study is more important in the other steps, with the standard
-deviation being 25% of the mean time in preprocessing and 50% in postprocessing respectively.
+deviation being 25% of the mean time in preprocessing and 50% in postprocessing respectively@hpc2020.
 These steps seem to be more affected by input variability, which is unexpected compared to our results in @tab:slant_cpu_singularity_times.
 The postprocessing step in particular is finishing with an `antsRegistration` step from the ANTs library@ants
 , that allows for `1000x1000x1000` maximum steps.
