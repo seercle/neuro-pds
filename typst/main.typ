@@ -65,12 +65,13 @@ We can find the exact dataset used to perform the DRD experiments in the GitHub 
 This is a dataset containing 87 images of fMRI (Functional magnetic resonance imaging) scans from
 the Dartmouth Raiders Dataset (DRD)@drd.
 Each is a 4D scan, with 326 pictures at resolution of 80x80x41 voxels.
-While SLANT is designed for 3D T1-weighted MRI scans, we utilized the DRD dataset to benchmark computational performance, noting that the segmentation output itself is not clinically valid for this data type.
+While SLANT is designed for 3D T1-weighted MRI scans, the DRD dataset works as input for the application,
+noting that the segmentation output itself is not clinically valid for this data type.
 
 These findings are particularly compelling as they demonstrate significant variability in execution time correlated with input data.
 Replicating these results would allow us to model and predict this variability based on input parameters, thereby optimizing resource allocation.
 
-To replicate the previous results, we ran the same SLANT CPU Singularity implementation
+To replicate the previous results, we ran the same SLANT CPU v1.0 Singularity implementation
 on our platform using the same DRD fMRI dataset.
 
 We ran the SLANT algorithm in three different configurations:
@@ -218,12 +219,12 @@ These steps seem to be more affected by input variability, which is unexpected c
 The postprocessing step in particular is finishing with an `antsRegistration` step from the ANTs library@ants
 , that allows for `1000x1000x1000` maximum steps.
 This step could be the source of variation of the postprocessing in the previous study, as the number of iterations required for convergence could vary depending on the input data.
-However we could not observe this variability in our experiments.
+However, we could not observe this variability in our experiments.
 
 Similarly, the preprocessing step involves a rigid registration that takes almost all the preprocessing time in our runs.
 This step is performed using `reg_aladin` tool from the NiftyReg library@niftyreg. This tool uses an iterative
 approach to perform the registration, and the number of iterations required for convergence could vary depending on the input data.
-However we could not observe this variability in our experiments.
+Again, we could not observe this variability in our experiments.
 
 = deepmriprep
 
@@ -293,7 +294,7 @@ at least for the fMRI dataset used in this study.
 = ANTS
 
 Finally, we investigated the Advanced Normalization Tools (ANTs).
-Unlike the containerized deep learning applications discussed previously, ANTs relies on traditional iterative algorithms for segmentation (specifically Expectation-Maximization).
+Unlike the containerized deep learning applications discussed previously, ANTs relies strictly on traditional iterative algorithms for segmentation (specifically Expectation-Maximization).
 In theory, this algorithmic approach introduces greater potential for runtime variability, as convergence depends heavily on the specific characteristics of the input data.
 The suite includes:
 - image registration
@@ -303,9 +304,6 @@ The suite includes:
 - and a lot more
 
 We focused our study on the brain segmentation functionality of ANTs, which can be used to segment brain MRI scans into different anatomical regions.
-Unlike SLANT and deepmriprep, ANTs does not use deep learning models for segmentation,
-but instead relies on traditional image processing techniques.
-This should mean, in theory, that the execution time could be more affected by input variability.
 ANTs' Atropos algorithm performs segmentation using an iterative approach based on the Expectation-Maximization (EM) algorithm.
 The algorithm iteratively refines the segmentation by updating the class probabilities and the model parameters until convergence
 We ran ANTs in CPU mode on our platform but, unlike SLANT and deepmriprep, we used a 3D T1-weighted MRI dataset from the OASIS-3 dataset@oasis3.
