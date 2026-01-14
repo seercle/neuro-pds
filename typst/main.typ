@@ -61,7 +61,7 @@ the authors analyzed the performance of the SLANT algorithm for brain segmentati
 They observed that the execution time of SLANT varied significantly depending on the input data, with a walltime of 125min#sym.plus.minus\30%.
 This result was obtained using a Singularity@singularity image of SLANT v1.0 in CPU mode, running on a machine with two
 Intel Xeon E5-2680v3 processors (12core \@ 2,5 GHz) with an unspecified amount of RAM.
-We can find the exact dataset used to perform the DRD experiments in the GitHub repository associated with the study@hpc2020-github.
+We can find the exact dataset used to perform the DRD experiments in the git repository associated with the study@hpc2020-git.
 This is a dataset containing 87 images of fMRI (Functional magnetic resonance imaging) scans from
 the Dartmouth Raiders Dataset (DRD)@drd.
 Each is a 4D scan, with 326 pictures at resolution of 80x80x41 voxels.
@@ -152,10 +152,14 @@ in the previous study was not due to the number of threads used.
 #figure(
   caption: [Mean and Standard Deviation walltime of each step for SLANT CPU on Docker (in seconds)],
   table(
+    columns: 7,
+    stroke: (x, y) => if y <= 1 { (top: 0.5pt) },
+    fill: (x, y) => if y > 0 and calc.rem(y, 2) == 0  { rgb("#efefef") },
+
+    table.header[Nb of threads][Preprocessing (mean)][Preprocessing (std)][Segmentation (mean)][Segmentation (std)][Postprocessing (mean)][Postprocessing (std)],
+    [128], [1324], [51], [4919], [59], [1150], [44],
   )
 ) <tab:slant_cpu_docker_times>
-
-// Ajouter le tableau des résultats sous Docker
 
 #figure(
   image("images/memory_profile_slant_cpu_docker_all_cpus.svg"),
@@ -163,12 +167,22 @@ in the previous study was not due to the number of threads used.
 ) <fig:memory_profile_slant_cpu_docker_all_cpus>
 
 In case the paper @hpc2020 was using Docker instead of Singularity, we also ran the SLANT CPU Docker in the same 3 configurations.
-We observe in @tab:slant_cpu_docker_times that the walltime is again very consistent regardless of the number of threads used, just
-being a bit higher than the Singularity version.
+We observe in @tab:slant_cpu_docker_times that the walltime is again very consistent.
+The mean walltime is a bit higher than the Singularity implementation for the preprocessing and postprocessing phases,
+but the standard deviation remains very low compared to the mean time for all three steps.
 Similarly, the memory profile in @fig:memory_profile_slant_cpu_docker_all_cpus
 is also very similar to the Singularity implementation, with peak usage being
 a bit higher than the Singularity version, probably due to Docker's overhead.
 Note that, due to using Docker, we now can plot the absolute memory usage starting at 0.
+
+We can compare the memory profile of SLANT CPU Docker in @fig:memory_profile_slant_cpu_docker_all_cpus
+with the Singularity version in @fig:walltime_slant_cpu_singularity_all_cpus.
+We see that the application stays at a very low memory usage at the beginning of the preprocessing step,
+for around 600 seconds.
+Similarly, at the beginning and also at the end of the postprocessing step,
+the memory usage is also very low for around 1000 seconds in total.
+Altough we do not have an explanation for it, this particular behaviour of Docker could be the source of the higher
+mean walltime observed in @tab:slant_cpu_docker_times compared to @tab:slant_cpu_singularity_times.
 
 This shows that the runtime used (Docker or Singularity) does not impact the non-variability of the execution time we observed,
 contrary to the previous study. The variability shown in the previous study cannot come from the dual-cpu nature of the platform used, and
