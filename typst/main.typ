@@ -64,7 +64,7 @@ Intel Xeon E5-2680v3 processors (12core \@ 2,5 GHz) with an unspecified amount o
 We can find the exact dataset used to perform the DRD experiments in the git repository associated with the study@hpc2020-git.
 This is a dataset containing 87 images of fMRI (Functional magnetic resonance imaging) scans from
 the Dartmouth Raiders Dataset (DRD)@drd.
-Each is a 4D scan, with 326 pictures at resolution of 80x80x41 voxels.
+Each is a 4D scan, with between 326 and 344 pictures at a resolution of 80x80x41 voxels.
 While SLANT is designed for 3D T1-weighted MRI scans, the DRD dataset works as input for the application,
 noting that the segmentation output itself is not clinically valid for this data type.
 
