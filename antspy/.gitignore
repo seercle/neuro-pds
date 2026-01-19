@@ -1,3 +1,6 @@
 /*
 !.gitignore
 !atropos.py
+!plot_histogram.py
+!plot_iteration.py
+!plot_multiple_histogram.py

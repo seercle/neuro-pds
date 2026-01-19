@@ -1,6 +1,8 @@
 import glob
 import os
+import re
 import sys
+import tempfile
 import time
 
 import ants
@@ -17,9 +19,7 @@ output_filename = "output.csv"
 os.makedirs(output_dir, exist_ok=True)
 
 
-def run_t1_pipeline():
-    # Look for T1 files (common namings)
-    # If your files are just .nii.gz, change this to '*.nii*'
+def run_atropos():
     image_files = sorted(glob.glob(os.path.join(data_path, "*.nii*")))
 
     if not image_files:
@@ -42,48 +42,45 @@ def run_t1_pipeline():
                 print(f"   > Skipping: Expected 3D image, found {img.dimension}D.")
                 continue
 
-            start_total = time.time()
+            print("   > Atropos Segmentation...")
 
-            # 2. Pre-processing: Truncate Intensity
-            # (Removes extreme bright pixels/outliers common in T1w raw data)
-            print("   > Step 1: Denoise & Truncate...")
-            img = ants.iMath(img, "TruncateIntensity", 0.01, 0.99)
-            img = ants.denoise_image(img, noise_model="Rician")
+            sys.stdout.flush()
+            original_stdout_fd = os.dup(sys.stdout.fileno())
 
-            # 3. Brain Extraction (Skull Stripping)
-            # For T1w, we need a clean mask or Atropos will classify the skull as white matter.
-            print("   > Step 2: Creating Brain Mask...")
-            # mask = ants.get_mask(img)
-            mask = ants.get_mask(img, low_thresh=None, high_thresh=None, cleanup=2)
+            with tempfile.TemporaryFile(mode="w+") as tfile:
+                try:
+                    os.dup2(tfile.fileno(), sys.stdout.fileno())
+                    seg = ants.atropos(
+                        a=img,
+                        m="[0.3,1x1x1]",  # 3D smoothing
+                        c="[50,1e-5]",  # Loop up to 50 times to find tissue boundaries
+                        i="kmeans[3]",  # Initialize with K-Means
+                        x=ants.get_mask(img),
+                        verbose=1,
+                    )
+                finally:
+                    sys.stdout.flush()
+                    os.dup2(original_stdout_fd, sys.stdout.fileno())
+                    os.close(original_stdout_fd)
 
-            # 4. N4 Bias Field Correction (Variable Time)
-            # We set convergence to be strict. Noisy scanners will take longer here.
-            print("   > Step 3: N4 Bias Correction...")
-            start_n4 = time.time()
-            img_n4 = ants.n4_bias_field_correction(
-                img, mask=mask, convergence={"iters": [50, 50, 50, 50], "tol": 1e-7}
-            )
-            time_n4 = time.time() - start_n4
+                tfile.seek(0)
+                output_log = tfile.read()
 
-            # 5. Atropos Segmentation (Variable Time)
-            # 3D Neighborhood (1x1x1)
-            # 3 Tissue Classes (CSF, GM, WM)
-            print("   > Step 4: Atropos Segmentation...")
-            start_seg = time.time()
-            seg = ants.atropos(
-                a=img_n4,
-                m="[0.5,1x1x1]",  # 3D smoothing
-                c="[50,1e-5]",  # Loop up to 50 times to find tissue boundaries
-                i="kmeans[3]",  # Initialize with K-Means
-                x=mask,
-                verbose=1,
-            )
-            time_seg = time.time() - start_seg
+            # print(output_log)
 
-            total_elapsed = time.time() - start_total
-            print(
-                f"   > Total Time: {total_elapsed:.2f}s (N4: {time_n4:.2f}s, Seg: {time_seg:.2f}s)"
-            )
+            # Parse last iteration number
+            iterations = 0
+            matches = re.findall(r"Iteration (\d+) \(of \d+\)", output_log)
+            if matches:
+                iterations = int(matches[-1])
+            print(f"   > Iterations: {iterations}")
+
+            # Parse elapsed time
+            time_seg = 0.0
+            matches = re.findall(r"Elapsed time: ([\d.]+)", output_log)
+            if matches:
+                time_seg = float(matches[-1])
+            print(f"   > Elapsed Time: {time_seg:.2f}s")
 
             # Save Output
             output_path = os.path.join(output_dir, f"seg_{filename}")
@@ -91,27 +88,31 @@ def run_t1_pipeline():
 
             performance_log.append(
                 {
-                    "Filename": filename,
-                    "Time_Total": round(total_elapsed, 2),
-                    "Time_N4": round(time_n4, 2),
-                    "Time_Atropos": round(time_seg, 2),
-                    "Status": "Success",
+                    "filename": filename,
+                    "elapsed_seconds": round(time_seg, 2),
+                    "file_size_mb": round(os.path.getsize(img_path) / (1024 * 1024), 2),
+                    "iterations": iterations,
                 }
             )
 
         except Exception as e:
             print(f"   > Error: {e}")
             performance_log.append(
-                {"Filename": filename, "Time_Total": 0, "Status": f"Failed: {str(e)}"}
+                {
+                    "filename": filename,
+                    "elapsed_seconds": 0,
+                    "file_size_mb": 0,
+                    "iterations": 0,
+                }
             )
 
-    # Save CSV Report
-    df = pd.DataFrame(performance_log)
-    df.to_csv(output_filename, index=False)
-    print(f"\nBatch completed. Data saved to {output_filename}")
+        # Save CSV Report
+        df = pd.DataFrame(performance_log)
+        output_path = os.path.join(output_dir, output_filename)
+        df.to_csv(output_path, index=False)
 
     print(f"\nBatch completed. Data saved to {output_filename}")
 
 
 if __name__ == "__main__":
-    run_t1_pipeline()
+    run_atropos()
