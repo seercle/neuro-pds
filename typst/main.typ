@@ -4,6 +4,7 @@
   abstract: [
     Recent advancements in High-Performance Computing (HPC), Big Data, and Artificial Intelligence (AI) have driven an unprecedented demand for computational resources in neuroscience.
     However, efficiently utilizing these resources remains a challenge due to the complexity of modern computing systems and the diverse nature of neuroscience applications.
+    This problem is exacerbated in neuroscience applications, where users are often not experts in computer science or HPC, making it difficult to optimize resource allocation and job scheduling.
     In this paper, we present a comprehensive performance analysis of several neuroscience applications, focusing on their execution time and memory footprint, and
     compare them across different system configurations.
     Finally, we develop a model to predict the execution time of one of these applications based on their input parameters and system configurations.
@@ -27,9 +28,15 @@
 
 = Introduction
 
-When designing an application, it is crucial to understand its performance consistency relative to input parameters. In the context of High-Performance Computing (HPC), resources are typically allocated based on walltime estimates. Consequently, accurate prediction models are essential for efficient resource management and cost reduction. This is particularly critical for stochastic applications where execution time varies significantly. With the increasing complexity of neuroscience applications driven by AI and Big Data, understanding these performance characteristics has become paramount.
+When designing an application, it is crucial to understand its performance consistency relative to
+input parameters. In the context of High-Performance Computing (HPC), resources are typically allocated
+based on walltime estimates. Consequently, accurate prediction models are essential for efficient resource management
+and cost reduction. This is particularly critical for stochastic applications where execution time varies significantly.
+With the increasing complexity of neuroscience applications driven by AI and Big Data, understanding these performance
+characteristics has become paramount.
 
-In this paper, we present a comprehensive performance analysis of several neuroscience applications, focusing on characterizing their execution time and memory footprint relative to input data.
+In this paper, we present a comprehensive performance analysis of several neuroscience applications,
+focusing on characterizing their execution time and memory footprint relative to input data.
 
 = Platform
 
@@ -142,8 +149,17 @@ The shape of the memory profile is also very similar, with the preprocessing ste
 followed by a long segmentation step with 27 peaks, corresponding to the network parameterization of SLANT-27,
 and finally a postprocessing step with 1 peak.
 
-This replication attempt shows that while we could not replicate the execution time variability observed in the previous study,
-we could replicate the memory footprint profile of the SLANT CPU Singularity implementation.
+#figure(
+  image("images/previous_walltime.png"),
+  caption: "2020 study result for SLANT CPU Singularity walltime on two separate datasets"
+) <fig:previous_walltime>
+#figure(
+  image("images/previous_memory_profile.png"),
+  caption: "2020 study result for SLANT CPU Singularity memory profile on an DRD data"
+) <fig:previous_memory_profile>
+
+This replication attempt shows that, while we could not replicate the execution time variability observed in the previous study (@fig:previous_walltime),
+we could replicate the memory footprint profile of the SLANT CPU Singularity implementation (@fig:previous_memory_profile).
 This shows that our platform seem to be running similar
 jobs as the previous study, but with unidentified system variables leading to a variable time in their case.
 From our testing with different number of threads, we can also conclude that the time variation
@@ -206,16 +222,19 @@ we used the same dataset to run SLANT on the following versions and configuratio
     fill: (x, y) => if y > 0 and calc.rem(y, 2) == 0  { rgb("#efefef") },
 
     table.header[Mode][Version][Thread count][Mean time (min)][Std Dev (min)],
+    [gpu], [1.0], [128], [59.40], [1.89],
+    [gpu], [1.1], [128], [60.19], [3.49],
+    [cpu], [1.1], [128], [137.14], [1.01],
   )
 ) <tab:slant_other_walltime>
 
 To ensure the discrepancy wasn't due to version mismatches or hardware acceleration differences,
-we extended our benchmarking to SLANT v1.0 (GPU) and v1.1 (CPU and GPU). Across all configurations,
+we extended our benchmarking to SLANT v1.0 (GPU) and v1.1 (CPU and GPU) in @tab:slant_other_walltime. Across all configurations,
 the execution time remained remarkably consistent, reinforcing our conclusion that the software version
 is not the primary source of the previously observed variability. This consistency persists regardless
 of the underlying hardware acceleration or specific minor version updates.
 
-== Slant algorithm
+== Causes of variability and non-variability
 
 The SLANT algorithm is composed of three steps:
 1. Preprocessing
@@ -232,8 +251,8 @@ deviation being 25% of the mean time in preprocessing and 50% in postprocessing 
 These steps seem to be more affected by input variability, which is unexpected compared to our results in @tab:slant_cpu_singularity_times.
 The postprocessing step in particular is finishing with an `antsRegistration` step from the ANTs library@ants
 , that allows for `1000x1000x1000` maximum steps.
-This step could be the source of variation of the postprocessing in the previous study, as the number of iterations required for convergence could vary depending on the input data.
-However, we could not observe this variability in our experiments.
+This step could be the source of variation of the postprocessing in the previous study, as the number of iterations
+required for convergence could vary depending on the input data. However, we could not observe this variability in our experiments.
 
 Similarly, the preprocessing step involves a rigid registration that takes almost all the preprocessing time in our runs.
 This step is performed using `reg_aladin` tool from the NiftyReg library@niftyreg. This tool uses an iterative
@@ -243,7 +262,8 @@ Again, we could not observe this variability in our experiments.
 = deepmriprep
 
 Given the consistent performance of SLANT in our environment, we expanded our scope to `deepmriprep`@deepmriprep, another prominent neuroscience application.
-As a deep learning-based MRI preprocessing pipeline, it offers a comparable workload structure but employs different underlying algorithms, allowing us to verify if our observations were specific to SLANT or indicative of a broader trend in containerized neuroimaging tools.
+As a deep learning-based MRI preprocessing pipeline, it offers a comparable workload structure but employs different underlying algorithms,
+allowing us to verify if our observations were specific to SLANT or indicative of a broader trend in containerized neuroimaging tools.
 The tool can perform multiple preprocessing steps, including:
 - brain extraction
 - affine registration
@@ -307,8 +327,9 @@ at least for the fMRI dataset used in this study.
 
 = ANTS
 
-Finally, we investigated the Advanced Normalization Tools (ANTs).
-Unlike the containerized deep learning applications discussed previously, ANTs relies strictly on traditional iterative algorithms for segmentation (specifically Expectation-Maximization).
+Finally, we investigated the Advanced Normalization Tools (ANTs), a widely used open-source software suite for medical image processing and analysis@ants.
+Unlike the containerized deep learning applications discussed previously, ANTs relies strictly on traditional iterative algorithms
+for segmentation (specifically Expectation-Maximization).
 In theory, this algorithmic approach introduces greater potential for runtime variability, as convergence depends heavily on the specific characteristics of the input data.
 The suite includes:
 - image registration
@@ -321,6 +342,7 @@ We focused our study on the brain segmentation functionality of ANTs, which can 
 ANTs' Atropos algorithm performs segmentation using an iterative approach based on the Expectation-Maximization (EM) algorithm.
 The algorithm iteratively refines the segmentation by updating the class probabilities and the model parameters until convergence
 We ran ANTs in CPU mode on our platform but, unlike SLANT and deepmriprep, we used a 3D T1-weighted MRI dataset from the OASIS-3 dataset@oasis3.
+The full used dataset can be found in our git repository associated with this study@this-git.
 
 #figure(
   caption: [Atropos parameters],
