@@ -15,21 +15,18 @@ def main():
         print(f"Error: {directory_path} is not a valid directory")
         sys.exit(1)
 
-    for filename in os.listdir(directory_path):
-        filepath = os.path.join(directory_path, filename)
-        if os.path.isdir(filepath):
-            continue
+    for root, dirs, files in os.walk(directory_path):
+        files.sort()
+        for filename in files:
+            filepath = os.path.join(root, filename)
 
-        try:
-            img = nib.load(filepath)
-            print(f"File: {filename}, Shape: {img.shape}")
-            print(f"Resolution: {img.header.get_zooms()}")
+            try:
+                img = nib.load(filepath)
+                print(f"File: {filepath}, Shape: {img.shape}")
+                print(f"Resolution: {img.header.get_zooms()}")
 
-        except Exception as e:
-            print(f"Could not process {filename}: {e}")
-
-        except Exception as e:
-            print(f"Could not process {filename}: {e}")
+            except Exception as e:
+                print(f"Could not process {filepath}: {e}")
 
 
 if __name__ == "__main__":

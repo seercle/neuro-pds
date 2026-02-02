@@ -1,6 +1,7 @@
 /*
 !.gitignore
 !clean_slant_output.sh
+!copy_nii_files.py
 !extract_slant_times.py
 !get_images_shape.py
 !get_walltime_stats.py
