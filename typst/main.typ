@@ -32,8 +32,8 @@ When designing an application, it is crucial to understand its performance consi
 input parameters. In the context of High-Performance Computing (HPC), resources are typically allocated
 based on walltime estimates. To schedule jobs efficiently and minimize wait times, users often provide an estimate of the expected execution time.
 Consequently, accurate prediction models are essential for efficient resource management
-and cost reduction. This prediction is dependent on a lot of factors, such as the input data, the system configuration,
-the hardware used, the software implementation, ...
+and cost reduction. This prediction depends on many factors, including input data, system configuration,
+hardware, and software implementation.
 This is particularly critical for stochastic applications where execution time varies significantly.
 With the increasing complexity of neuroscience applications driven by AI and Big Data, understanding these performance
 characteristics has become more important than ever.
@@ -72,7 +72,7 @@ We will focus here on the overlapped version of SLANT: SLANT27, which uses 27 ov
 
 In a 2020 study _Profiles of upcoming HPC Applications and their Impact on Reservation Strategies_@hpc2020,
 the authors analyzed the performance of the SLANT algorithm for brain segmentation.
-They observed that the execution time of SLANT varied significantly depending on the input data, with a walltime of 125min#sym.plus.minus\30%.
+They observed that the execution time of SLANT varied significantly depending on the input data, with a walltime of 125 min #sym.plus.minus 30%.
 This result was obtained using a Singularity@singularity image of SLANT v1.0 in CPU mode, running on a machine with two
 Intel Xeon E5-2680v3 processors (12core \@ 2,5 GHz) with an unspecified amount of RAM.
 We can find the exact dataset used to perform the DRD experiments in the git repository associated with the study@hpc2020-git.
@@ -109,7 +109,7 @@ We ran the SLANT algorithm in three different configurations:
 
 #figure(
   image("images/walltime_slant_cpu_singularity_single_cpu.svg"),
-  caption: "SLANT CPU Singularity Walltime vs fMRI number of scans for one threads"
+  caption: "SLANT CPU Singularity Walltime vs fMRI number of scans for one thread"
 )
 #figure(
   image("images/walltime_slant_cpu_singularity_some_cpus.svg"),
@@ -121,7 +121,7 @@ We ran the SLANT algorithm in three different configurations:
 )
 
 We observe in @tab:slant_cpu_singularity_walltime a walltime of around 107 minutes regardless of the number of threads used,
-with a very low standard deviation for all number of threads, with the (still small) highest standard deviation of 48 and 128 threads probably
+with a very low standard deviation for all number of threads, with the highest (though still small) standard deviation occurring at 48 and 128 threads, probably
 coming from the inter-process communication overhead.
 
 #figure(
@@ -152,7 +152,7 @@ obtained when running SLANT CPU on Singularity with all 128 threads.
 Notice the Y-axis does not start at 0 due to the high background memory usage,
 however this usage does not impact the performance of the application.
 We see that the difference between the base memory usage and the peak memory usage is around 42GiB, which is consistent with the previous study.
-The shape of the memory profile is also very similar, with the preprocessing step consisting of 3 separates peaks,
+The shape of the memory profile is also very similar, with the preprocessing step consisting of 3 separate peaks,
 followed by a long segmentation step with 27 peaks, corresponding to the network parameterization of SLANT-27,
 and finally a postprocessing step with 1 peak.
 
@@ -167,7 +167,7 @@ and finally a postprocessing step with 1 peak.
 
 This replication attempt shows that, while we could not replicate the execution time variability observed in the previous study (@fig:previous_walltime),
 we could replicate the memory footprint profile of the SLANT CPU Singularity implementation (@fig:previous_memory_profile).
-This shows that our platform seem to be running similar
+This shows that our platform seems to be running similar
 jobs as the previous study, but with unidentified system variables leading to a variable time in their case.
 From our testing with different number of threads, we can also conclude that the time variation
 in the previous study was not due to the number of threads used.
@@ -204,7 +204,7 @@ We see that the application stays at a very low memory usage at the beginning of
 for around 600 seconds.
 Similarly, at the beginning and also at the end of the postprocessing step,
 the memory usage is also very low for around 1000 seconds in total.
-Altough we do not have an explanation for it, this particular behaviour of Docker could be the source of the higher
+Although we do not have an explanation for it, this particular behaviour of Docker could be the source of the higher
 mean walltime observed in @tab:slant_cpu_docker_times compared to @tab:slant_cpu_singularity_times.
 
 This shows that the runtime used (Docker or Singularity) does not impact the non-variability of the execution time we observed,
@@ -230,8 +230,8 @@ we used the same dataset to run SLANT on the following versions and configuratio
 
     table.header[Mode][Version][Thread count][Mean time (min)][Std Dev (min)],
     [gpu], [1.0], [128], [59.40], [1.89],
-    [gpu], [1.1], [128], [60.19], [3.49],
     [cpu], [1.1], [128], [137.14], [1.01],
+    [gpu], [1.1], [128], [60.19], [3.49],
   )
 ) <tab:slant_other_walltime>
 
@@ -257,13 +257,13 @@ which is substantially higher than our results, but can still be considered low.
 However, the variation in the previous study is more important in the other steps, with the standard
 deviation being 25% of the mean time in preprocessing and 50% in postprocessing respectively@hpc2020.
 These steps seem to be more affected by input variability, which is unexpected compared to our results in @tab:slant_cpu_singularity_times.
-The postprocessing step in particular is finishing with an `antsRegistration` step from the ANTs library@ants
-, that allows for `1000x1000x1000` maximum steps.
+The postprocessing step in particular is finishing with an `antsRegistration` step from the ANTs library@ants,
+that allows for `1000x1000x1000` maximum steps.
 This step could be the source of variation of the postprocessing in the previous study, as the number of iterations
 required for convergence could vary depending on the input data. However, we could not observe this variability in our experiments.
 
 Similarly, the preprocessing step involves a rigid registration that takes almost all the preprocessing time in our runs.
-This step is performed using `reg_aladin` tool from the NiftyReg library@niftyreg. This tool uses an iterative
+This step is performed using the `reg_aladin` tool from the NiftyReg library@niftyreg. This tool uses an iterative
 approach to perform the registration, and the number of iterations required for convergence could vary depending on the input data.
 Again, we could not observe this variability in our experiments.
 
@@ -364,8 +364,8 @@ The suite includes:
 
 We focused our study on the brain segmentation functionality of ANTs, which can be used to segment brain MRI scans into different anatomical regions.
 ANTs' Atropos algorithm performs segmentation using an iterative approach based on the Expectation-Maximization (EM) algorithm.
-The algorithm iteratively refines the segmentation by updating the class probabilities and the model parameters until convergence
-We ran ANTs in CPU mode on our platform but, unlike SLANT and deepmriprep, we used a 3D T1-weighted MRI dataset from the OASIS-3 dataset@oasis3.
+The algorithm iteratively refines the segmentation by updating the class probabilities and the model parameters until convergence.
+We ran Atropos in CPU mode on our platform but, unlike SLANT and deepmriprep, we used a 3D T1-weighted MRI dataset from the OASIS-3 dataset@oasis3.
 The full used dataset metadata can be found in our git repository associated with this study@this-git, and is composed of 2832 images of T1-weighted MRI
 scans at variable sizes.
 
@@ -384,15 +384,14 @@ scans at variable sizes.
   )
 ) <tab:atropos_parameters>
 
-We ran the Atropos algorithm using the parameters listed in @tab:atropos_parameters,
-which are commonly used for brain segmentation tasks.
+We ran the Atropos algorithm using the parameters listed in @tab:atropos_parameters, which are commonly used for brain segmentation tasks.
 The most important parameter here is the threshold value, which determines the convergence criteria of the algorithm.
 The algorithm stops when the log-likelihood change between iterations is below this threshold.
 This means that the condition, at step n, for stopping the algorithm is:
 $
   |"likelihood"_n - "likelihood"_(n-1)| < "threshold"
 $
-It is this treshold value, in combination with the max iteration parameter, that can lead to variability in execution time,
+It is this threshold value, in combination with the max iteration parameter, that can lead to variability in execution time,
 as the number of iterations required for convergence can vary depending on the input data.
 If the threshold is set too low, the algorithm may take a long time to converge, leading to maximum iteration being reached.
 Conversely, if the threshold is set too high, the algorithm may converge instantly, leading to no variability in execution time.
@@ -406,7 +405,7 @@ the maximum number of iterations we observed in practice with our dataset.
 
 From the histogram in @fig:atropos_iterations_histogram, we can see that the number of iterations required for convergence varies significantly depending on the input data,
 with some images converging in one iterations, while others require more than 15 iterations to converge.
-We can distinguish two distributions shapres in the histogram, with one distribution of images converging in one or two iterations,
+We can distinguish two distribution shapes in the histogram, with one distribution of images converging in one or two iterations,
 and another in a normal distribution centered around 9 iterations.
 To make sure that the variability observed is not purely random, we ran the algorithm multiple times on a subset of 10 images from the dataset
 in @fig:atropos_iterations_multiple_runs, and observed that the number of iterations required for convergence is roughly the same
@@ -422,7 +421,7 @@ for each image across different runs, showing that the variability is indeed dep
   image("images/atropos_it_filesize.jpg"),
 ) <fig:atropos_iterations_filesize>
 
-Finally, we plotted the number of iterations required for convergence against the image file size for 100 images of the dataset in @fig:atropos_iterations_filesize,
+Finally, we plotted the number of iterations required for convergence against the image file size for 10 images of the dataset in @fig:atropos_iterations_filesize,
 and observed no clear correlation. This suggests that the variability in execution time is not simply due to the size of the input data,
 but rather to other characteristics of the images that affect the convergence of the algorithm.
 
@@ -436,7 +435,7 @@ The model pipeline is as follows:
 4. Regression head consisting of `Flatten` → `Linear` → `ReLU` → `Dropout` → `Linear` to predict the number of iterations required for convergence
 
 We trained the model on a subset of 2000 images and evaluated its performance on a separate test set of 500 images, both from the OASIS-3 dataset@oasis3.
-This model took around 3 hours to train on our platform using the GPU and batch mode. We used the Mean Squared Error (MSE) as the loss function for training,
+Training this model took around 3 hours on our platform using the GPU and batch mode. We used the Mean Squared Error (MSE) as the loss function for training,
 and the Mean Absolute Error (MAE) as an additional metric to evaluate the performance of the model.
 The resulting model has 3,260,929 trainable parameters, with a resulting file size of around 13MB. This is a reasonable size for this task: on average,
 the model can be loaded in memory in around 3.4s, and the inference time is around 300ms per image, which is negligible compared to the execution time
@@ -455,8 +454,33 @@ of the Atropos algorithm itself (around 26 seconds for 2-iteration images, and 1
   )
 ) <tab:atropos_prediction_model_performance>
 
-The model achieved a mean squared error of 2.49 and a mean absolute error of 0.77 on the test set as shown in @tab:atropos_prediction_model_performance.
-The Mean Squared Error (MSE) indicates that, on average, the squared difference between the predicted and actual number of iterations is 2.49.
+The model achieved a mean squared error of 2.49 and a mean absolute error of 1.14 on the test set as shown in @tab:atropos_prediction_model_performance.
 This result is a good performance for this task: it shows that it is possible to predict with good precision the number of iterations required for convergence
 of the Atropos algorithm based on the input image, which could be used to optimize the scheduling of jobs using this algorithm
 by providing a more accurate walltime estimate.
+
+After analyzing the results, we discovered that the Atropos algorithm convergence speed is highly correlated with the shape of the input image.
+We don't know yet if this behaviour is strictly due to the shape of the image, or if it is also correlated with other characteristics of the image
+that are themselves correlated with the shape. We ran our model on a separate test of 22 T1 images of shape (256x256x256) from the RDR datasets,
+which is not a shape that was present in the OASIS3 training set. We observed a significant drop in performance,
+with a mean absolute error of 2.88, which is more than double the MAE obtained on the OASIS3 test set, showing that the model is not able to generalize
+well to images of a different shape, and that the shape of the image is indeed a very important factor for the convergence of the Atropos algorithm.
+
+= Conclusion
+
+In this study, we conducted a comprehensive performance analysis of several neuroscience applications, focusing on their execution time relative to input data.
+We replicated the results of a previous study on the SLANT algorithm, and found that, contrary to their findings, the execution time of
+SLANT is very consistent regardless of the input data.
+This shows that variability, like the one observed in the previous study, can be caused by unidentified system variables, and that the study
+of the variability of an algorithm can not be done by solely looking at the algorithm itself, but must also take into account other variables
+such as the system on which it is running, its configuration, and more.
+We also observed that this non-variability in execution time is not specific to SLANT, as we found the same behaviour in deepmriprep, another neuroscience application.
+Finally, we investigated the ANTs Atropos algorithm, which uses an iterative approach for segmentation, and found that its execution
+time varies significantly depending on the input data, with some images converging in one iteration, while others require more than 15 iterations to converge.
+From these results, we derived a deep learning model to predict the number of iterations required for convergence of the Atropos algorithm based on the input image,
+and achieved a good performance with a mean absolute error of 1.14 on the test set.
+This model could be used to optimize the scheduling of jobs using the Atropos algorithm by providing a more accurate walltime estimate, especially if
+these jobs are run a large number of times on an overloaded HPC cluster.
+While running Atropos with our parameters already resulted in a relatively fast convergence of the images (taking up to 220 seconds for some images can be
+considered reasonable), we hope that our machine-learning approach to predict the walltime of an algorithm based on its input data can be applied to other
+algorithms with a more significant execution time, and thus lead to more efficient resource allocation and cost reduction in HPC environments.
