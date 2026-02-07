@@ -30,15 +30,16 @@
 
 When designing an application, it is crucial to understand its performance consistency relative to
 input parameters. In the context of High-Performance Computing (HPC), resources are typically allocated
-based on walltime estimates. Consequently, accurate prediction models are essential for efficient resource management
-and cost reduction. This is particularly critical for stochastic applications where execution time varies significantly.
+based on walltime estimates. To schedule jobs efficiently and minimize wait times, users often provide an estimate of the expected execution time.
+Consequently, accurate prediction models are essential for efficient resource management
+and cost reduction. This prediction is dependent on a lot of factors, such as the input data, the system configuration,
+the hardware used, the software implementation, ...
+This is particularly critical for stochastic applications where execution time varies significantly.
 With the increasing complexity of neuroscience applications driven by AI and Big Data, understanding these performance
-characteristics has become paramount.
+characteristics has become more important than ever.
 
 In this paper, we present a comprehensive performance analysis of several neuroscience applications,
 focusing on characterizing their execution time and memory footprint relative to input data.
-
-= Platform
 
 All experiments were conducted on a server node with the following specifications:
 - CPUs: 2 AMD EPYC 7502 32-Core Processors (64 threads \@ 2.50GHz)
@@ -56,6 +57,12 @@ We measured application memory usage using two methods:
 
 This study begins with a specific brain segmentation application called SLANT (Spatially Localized Atlas Network Tiles)@slant2019 @slant2018.
 SLANT uses a fully convolutional network (FCN) to segment 3D MRI brain scans into different anatomical regions.
+
+#figure(
+  caption: [SLANT output example],
+  image("images/slant_example.jpg")
+)
+
 The segmentation is performed in three main steps: preprocessing, segmentation using a deep learning model,
 and postprocessing to generate the output result.
 SLANT exists in two versions: SLANT v1.0 and SLANT v1.1, with both versions supporting CPU and GPU modes.
@@ -206,7 +213,7 @@ must thus come from other factors, such as the hardware used or some unknown con
 We performed the same study on several other machines, and have found again no significant variability in execution time,
 showing that the variability observed in the previous study is most likely not the normal behaviour of SLANT CPU.
 
-== Other SLANT Versions
+== Causes of variability and non-variability
 
 In case the previous study used by mistake either a different version or the GPU mode of SLANT,
 we used the same dataset to run SLANT on the following versions and configurations:
@@ -232,9 +239,10 @@ To ensure the discrepancy wasn't due to version mismatches or hardware accelerat
 we extended our benchmarking to SLANT v1.0 (GPU) and v1.1 (CPU and GPU) in @tab:slant_other_walltime. Across all configurations,
 the execution time remained remarkably consistent, reinforcing our conclusion that the software version
 is not the primary source of the previously observed variability. This consistency persists regardless
-of the underlying hardware acceleration or specific minor version updates.
-
-== Causes of variability and non-variability
+of the underlying hardware acceleration or specific minor version updates. We also ran SLANT in various versions using a subset of the
+OASIS-3 T1 image dataset@oasis3, and observed the same non-variability in execution time, showing that the variability observed
+in the previous study is not due to the specific dataset used, nor due to the resolution of the input images.
+Thus, we decided to look deeper into the SLANT algorithm itself
 
 The SLANT algorithm is composed of three steps:
 1. Preprocessing
@@ -270,6 +278,16 @@ The tool can perform multiple preprocessing steps, including:
 - tissue segmentation
 - nonlinear registration
 - smoothing
+
+#figure(
+  caption: [deepmriprep output example],
+  image("images/deepmriprep_example.png")
+)
+
+#figure(
+  caption: [deepmriprep atlas output example],
+  image("images/deepmriprep_atlas_example.jpg"),
+)
 
 The application uses a combination of traditional image processing techniques and deep learning models to achieve its results.
 deepmriprep is a Voxel-Based Morphometry (VBM) tool, meaning that it focuses on analyzing the differences in brain anatomy at the voxel level.
@@ -312,11 +330,12 @@ We ran the algorithm using different number of threads (1 and 128) and different
     table.header[Type][Nb of threads][Output type][Walltime (mean)][Walltime (std)],
     [cpu],[1], [all], [326.5], [2.3],
     [cpu],[128], [all], [85.6], [1.6],
+    [cpu],[128], [vbm], [75.8], [8.14],
     [cpu],[128], [rbm], [51.1], [1.0],
   )
-)
+) <tab:deepmriprep_walltime>
 
-We observe in the results that the walltime is very consistent regardless of the number of threads used or the output type,
+We observe in @tab:deepmriprep_walltime that the walltime is very consistent regardless of the number of threads used or the output type,
 with a standard deviation being always below 2% of the mean time.
 This shows that deepmriprep is also not affected by input variability when using the fMRI dataset from DRD, similarly to our study of SLANT.
 
@@ -338,11 +357,17 @@ The suite includes:
 - brain extraction
 - and a lot more
 
+#figure(
+  caption: [ANTS atropos output example],
+  image("images/atropos_example.png"),
+)
+
 We focused our study on the brain segmentation functionality of ANTs, which can be used to segment brain MRI scans into different anatomical regions.
 ANTs' Atropos algorithm performs segmentation using an iterative approach based on the Expectation-Maximization (EM) algorithm.
 The algorithm iteratively refines the segmentation by updating the class probabilities and the model parameters until convergence
 We ran ANTs in CPU mode on our platform but, unlike SLANT and deepmriprep, we used a 3D T1-weighted MRI dataset from the OASIS-3 dataset@oasis3.
-The full used dataset can be found in our git repository associated with this study@this-git.
+The full used dataset metadata can be found in our git repository associated with this study@this-git, and is composed of 2832 images of T1-weighted MRI
+scans at variable sizes.
 
 #figure(
   caption: [Atropos parameters],
@@ -352,14 +377,14 @@ The full used dataset can be found in our git repository associated with this st
     fill: (x, y) => if y > 0 and calc.rem(y, 2) == 0  { rgb("#efefef") },
 
     table.header[parameter][value],
-    [smoothness],[0.5,1x1x1],
-    [threshold],[1e-5],
+    [smoothness],[0.3,1x1x1],
+    [threshold],[1e-4],
     [max iterations],[50],
     [initialization],[kmeans(3)],
   )
-)
+) <tab:atropos_parameters>
 
-We ran the Atropos algorithm using the parameters listed in the table above,
+We ran the Atropos algorithm using the parameters listed in @tab:atropos_parameters,
 which are commonly used for brain segmentation tasks.
 The most important parameter here is the threshold value, which determines the convergence criteria of the algorithm.
 The algorithm stops when the log-likelihood change between iterations is below this threshold.
@@ -371,5 +396,67 @@ It is this treshold value, in combination with the max iteration parameter, that
 as the number of iterations required for convergence can vary depending on the input data.
 If the threshold is set too low, the algorithm may take a long time to converge, leading to maximum iteration being reached.
 Conversely, if the threshold is set too high, the algorithm may converge instantly, leading to no variability in execution time.
-We chose a threshold value of 1e-5, which is a common value used in practice, and a maximum of 50 iterations, which is a higher value than
+We chose a threshold value of 1e-4, which is a common value used in practice, and a maximum of 50 iterations, which is a higher value than
 the maximum number of iterations we observed in practice with our dataset.
+
+#figure(
+  caption: [Atropos histogram of number of iterations to convergence],
+  image("images/.3_e4.png"),
+) <fig:atropos_iterations_histogram>
+
+From the histogram in @fig:atropos_iterations_histogram, we can see that the number of iterations required for convergence varies significantly depending on the input data,
+with some images converging in one iterations, while others require more than 15 iterations to converge.
+We can distinguish two distributions shapres in the histogram, with one distribution of images converging in one or two iterations,
+and another in a normal distribution centered around 9 iterations.
+To make sure that the variability observed is not purely random, we ran the algorithm multiple times on a subset of 10 images from the dataset
+in @fig:atropos_iterations_multiple_runs, and observed that the number of iterations required for convergence is roughly the same
+for each image across different runs, showing that the variability is indeed dependent on the input data.
+
+#figure(
+  caption: [Atropos number of iterations across 3 different runs],
+  image("images/.3_e4_mul.png"),
+) <fig:atropos_iterations_multiple_runs>
+
+#figure(
+  caption: [Atropos number of iterations vs file size],
+  image("images/atropos_it_filesize.jpg"),
+) <fig:atropos_iterations_filesize>
+
+Finally, we plotted the number of iterations required for convergence against the image file size for 100 images of the dataset in @fig:atropos_iterations_filesize,
+and observed no clear correlation. This suggests that the variability in execution time is not simply due to the size of the input data,
+but rather to other characteristics of the images that affect the convergence of the algorithm.
+
+== Deep learning prediction model
+
+We decided to build a prediction model for the iteration count of the Atropos algorithm based on the input image.
+The model pipeline is as follows:
+1. Normalize the intensity of the input image using MONAI's@monai `ScaleIntensity` transform
+2. Resize the input image to a fixed size of 64x64x64 voxels using MONAI's `Resize` transform
+3. Feature extraction using a classic pattern of `Conv3d` → `BatchNorm` → `ReLU` → `MaxPool`. This 3D CNN pattern is repeated 4 times
+4. Regression head consisting of `Flatten` → `Linear` → `ReLU` → `Dropout` → `Linear` to predict the number of iterations required for convergence
+
+We trained the model on a subset of 2000 images and evaluated its performance on a separate test set of 500 images, both from the OASIS-3 dataset@oasis3.
+This model took around 3 hours to train on our platform using the GPU and batch mode. We used the Mean Squared Error (MSE) as the loss function for training,
+and the Mean Absolute Error (MAE) as an additional metric to evaluate the performance of the model.
+The resulting model has 3,260,929 trainable parameters, with a resulting file size of around 13MB. This is a reasonable size for this task: on average,
+the model can be loaded in memory in around 3.4s, and the inference time is around 300ms per image, which is negligible compared to the execution time
+of the Atropos algorithm itself (around 26 seconds for 2-iteration images, and 140 seconds for 14-iteration images).
+
+#figure(
+  caption: [Atropos iteration count prediction model performance],
+  table(
+    columns: 2,
+    stroke: (x, y) => if y <= 1 { (top: 0.5pt) },
+    fill: (x, y) => if y > 0 and calc.rem(y, 2) == 0  { rgb("#efefef") },
+
+    table.header[metric][value],
+    [Mean Squared Error (loss)],[2.49],
+    [Mean Absolute Error],[1.14],
+  )
+) <tab:atropos_prediction_model_performance>
+
+The model achieved a mean squared error of 2.49 and a mean absolute error of 0.77 on the test set as shown in @tab:atropos_prediction_model_performance.
+The Mean Squared Error (MSE) indicates that, on average, the squared difference between the predicted and actual number of iterations is 2.49.
+This result is a good performance for this task: it shows that it is possible to predict with good precision the number of iterations required for convergence
+of the Atropos algorithm based on the input image, which could be used to optimize the scheduling of jobs using this algorithm
+by providing a more accurate walltime estimate.
