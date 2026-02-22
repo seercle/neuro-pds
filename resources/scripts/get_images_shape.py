@@ -15,6 +15,7 @@ def main():
         print(f"Error: {directory_path} is not a valid directory")
         sys.exit(1)
 
+    shapes = set()
     for root, dirs, files in os.walk(directory_path):
         files.sort()
         for filename in files:
@@ -24,9 +25,11 @@ def main():
                 img = nib.load(filepath)
                 print(f"File: {filepath}, Shape: {img.shape}")
                 print(f"Resolution: {img.header.get_zooms()}")
+                shapes.add(img.shape)
 
             except Exception as e:
                 print(f"Could not process {filepath}: {e}")
+    print(f"Unique shapes found: {shapes}")
 
 
 if __name__ == "__main__":

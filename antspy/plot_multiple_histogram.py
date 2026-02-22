@@ -12,7 +12,6 @@ def analyze_multiple_distributions(input_csv_files, output_pdf_file, data_column
     source_labels = []
     all_filenames = set()
 
-    # Determine labels for legend
     filenames_only = [os.path.basename(f) for f in input_csv_files]
     use_parent_dir_labels = len(set(filenames_only)) < len(filenames_only)
 
@@ -21,7 +20,6 @@ def analyze_multiple_distributions(input_csv_files, output_pdf_file, data_column
     for csv_file in input_csv_files:
         current_file_data = {}
 
-        # Generate label for the legend
         if use_parent_dir_labels:
             parent = os.path.basename(os.path.dirname(os.path.abspath(csv_file)))
             label = f"{parent}/{os.path.basename(csv_file)}"
@@ -33,7 +31,6 @@ def analyze_multiple_distributions(input_csv_files, output_pdf_file, data_column
             with open(csv_file, mode="r", newline="") as infile:
                 reader = csv.DictReader(infile)
 
-                # Check for required columns
                 if "filename" not in reader.fieldnames:
                     print(
                         f"Error: Column 'filename' not found in {csv_file}. Skipping file.",
@@ -76,44 +73,38 @@ def analyze_multiple_distributions(input_csv_files, output_pdf_file, data_column
         print("No valid data found in any input file. Exiting.", file=sys.stderr)
         sys.exit(1)
 
-    # Sort filenames alphabetically for consistent X-axis
     sorted_filenames = sorted(list(all_filenames))
     num_files = len(sorted_filenames)
     num_datasets = len(datasets)
 
-    # Dynamic figure size: ensure enough width for many bars
     fig_width = max(12, num_files * 0.4)
     plt.figure(figsize=(fig_width, 8))
 
-    # Setup X-axis positions
     x = np.arange(num_files)
-    total_width = 0.8  # Total width of the group of bars
+    total_width = 0.8
     bar_width = total_width / num_datasets
 
-    # Calculate starting offset to center the group on the tick
     start_offset = -total_width / 2 + bar_width / 2
 
     colors = plt.cm.viridis(np.linspace(0, 0.9, num_datasets))
 
     for i, data_dict in enumerate(datasets):
-        # Extract values in the order of sorted_filenames
         y_values = [data_dict.get(fname, 0) for fname in sorted_filenames]
 
         plt.bar(
             x + start_offset + i * bar_width,
             y_values,
             width=bar_width,
-            label=source_labels[i],
+            # label=source_labels[i],
+            label=f"run{i + 1}",
             color=colors[i],
             alpha=0.85,
             edgecolor="black",
             linewidth=0.5,
         )
 
-    # Formatting
     plt.xlabel("Filename", fontweight="bold")
 
-    # Determine Y-axis label based on column name
     if "iterations" in data_column:
         ylabel = "Iteration Count"
         title = "Iterations per File"
@@ -127,10 +118,9 @@ def analyze_multiple_distributions(input_csv_files, output_pdf_file, data_column
     plt.ylabel(ylabel, fontweight="bold")
     plt.title(title, fontsize=14)
 
-    # Set X-ticks
-    plt.xticks(x, sorted_filenames, rotation=90, ha="center", fontsize=8)
+    files = [f"file{i + 1}" for i in range(num_files)]
+    plt.xticks(x, files, rotation=90, ha="center", fontsize=8)
 
-    # Add legend
     plt.legend(title="Source", bbox_to_anchor=(1.0, 1.0), loc="upper left")
 
     plt.grid(axis="y", linestyle="--", alpha=0.3)

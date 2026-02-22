@@ -3,4 +3,5 @@
 !atropos.py
 !plot_histogram.py
 !plot_iteration.py
+!plot_iteration_vs_walltime.py
 !plot_multiple_histogram.py
