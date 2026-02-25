@@ -273,7 +273,7 @@ is not the primary source of the previously observed variability. This consisten
 of the underlying hardware acceleration or specific minor version updates. We also ran SLANT in various versions using a subset of the
 OASIS-3 T1 image dataset @oasis3, and observed the same non-variability in execution time, showing that the variability observed
 in the previous study is not due to the specific dataset used, nor due to the resolution of the input images.
-Thus, we decided to look deeper into the SLANT algorithm itself
+Thus, we decided to look deeper into the SLANT algorithm itself.
 
 The SLANT algorithm is composed of three steps:
 1. Preprocessing
@@ -505,10 +505,10 @@ by providing a more accurate walltime estimate.
 
 After analyzing the results, we discovered that the Atropos algorithm convergence speed is highly correlated with the shape of the input image.
 We don't know yet if this behaviour is strictly due to the shape of the image, or if it is also correlated with other characteristics of the image
-that are themselves correlated with the shape. We ran our model on a separate test of 22 T1 images of shape (256x256x256) from the RDR datasets,
+that are themselves correlated with the shape. We ran our model on a separate test of 22 T1 images of shape (256x256x256) from the DRD datasets,
 which is not a shape that was present in the OASIS3 training set. We observed a significant drop in performance,
 with a mean absolute error of 2.88, which is more than double the MAE obtained on the OASIS3 test set, showing that the model is not able to generalize
-well to images from that dataset. However we don't know if this is due to features being different in the RDR dataset, or due to the shape of the image being unknown.
+well to images from that dataset. However we don't know if this is due to features being different in the DRD dataset, or due to the shape of the image being unknown.
 If this was due to the shape however, our data pipeline includes a resizing step to a fixed shape of 64x64x64, which could mean that
 the model is able to learn from the shape of the image even after resizing.
 
